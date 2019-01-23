@@ -23,8 +23,8 @@
   },
   "knownWallets": {
     "QMRhJyc1GDavB8RStdkPpaEbjrziYxgdsv": "Qredit Swap Wallet",
-    "	QXcPMXiHx2cZ8RGmFCu8yUCWFMxMiLGv1H": "Qredit Shield",
-    "	QjmG1PUnCh1ip9tZnt24FAQv9eXnsERsYk": "Altilly"
+    "QXcPMXiHx2cZ8RGmFCu8yUCWFMxMiLGv1H": "Qredit Shield",
+    "QjmG1PUnCh1ip9tZnt24FAQv9eXnsERsYk": "Altilly"
   },
   "defaults": {
     "token": "XQR",
