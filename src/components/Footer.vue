@@ -1,10 +1,10 @@
 <template>
   <footer class="max-w-2xl mx-auto px-5 md:px-10 py-8 text-theme-text-tertiary flex flex-col lg:flex-row flex-wrap justify-between items-center">
     <div class="mb-4 lg:mb-0 text-center md:text-left">
-      <span class="block md:inline-block mb-4 md:mb-0 text-center">&copy; <a href="https://ark.io" target="_blank">Ark.io</a> | {{ year }}. {{ $t("All rights reserved") }}</span> <div class="block md:inline-block"><span class="hidden md:inline-block"> | </span> <span>{{ $t("Version") }}: <a :href="versionLink" target="_blank">{{ version }}</a> | {{ $t("Date") }}: {{ date }}</span></div>
+      <span class="block md:inline-block mb-4 md:mb-0 text-center">&copy; <a href="https://Qredit.io" target="_blank">Qredit.io</a> | {{ year }}. {{ $t("All rights reserved") }}</span> <div class="block md:inline-block"><span class="hidden md:inline-block"> | </span> <span>{{ $t("Version") }}: <a :href="versionLink" target="_blank">{{ version }}</a> | {{ $t("Date") }}: {{ date }}</span></div>
     </div>
     <div class="text-center">
-      <a href="https://www.facebook.com/arkecosystem" target="_blank">
+      <a href="https://qredit.io/go/fb" target="_blank">
         <svg
           viewBox="0 0 24 24"
           xmlns="http://www.w3.org/2000/svg"
@@ -15,7 +15,7 @@
         </svg>
       </a>
 
-      <a href="https://twitter.com/ArkEcosystem" target="_blank">
+      <a href="https://qredit.io/go/twitter" target="_blank">
         <svg
           viewBox="0 0 24 24"
           class="m-2"
@@ -26,18 +26,8 @@
         </svg>
       </a>
 
-      <a href="https://www.youtube.com/channel/UCpc2k6zOOutGT9y56urDClg" target="_blank">
-        <svg
-          viewBox="0 0 24 24"
-          class="m-2"
-          xmlns="http://www.w3.org/2000/svg"
-          xmlns:xlink="http://www.w3.org/1999/xlink"
-          width="16px" height="16px">
-          <path fill-rule="evenodd" fill="currentColor" d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/>
-        </svg>
-      </a>
 
-      <a href="mailto:info@ark.io" target="_blank">
+      <a href="mailto:info@qredit.io" target="_blank">
         <svg
           viewBox="0 0 24 24"
           class="m-2"
@@ -48,7 +38,7 @@
         </svg>
       </a>
 
-      <a href="https://telegram.me/ArkEcosystem" target="_blank">
+      <a href="https://qredit.io/go/telegram" target="_blank">
         <svg
           viewBox="0 0 14 14"
           class="m-2"
@@ -59,7 +49,7 @@
         </svg>
       </a>
 
-      <a href="https://www.reddit.com/r/arkecosystem" target="_blank">
+      <a href="https://qredit.io/go/reddit" target="_blank">
         <svg
           viewBox="0 0 17 17"
           class="m-2"
@@ -70,7 +60,7 @@
         </svg>
       </a>
 
-      <a href="https://github.com/ArkEcosystem" target="_blank">
+      <a href="https://qredit.io/go/github" target="_blank">
         <svg
           viewBox="0 0 24 24"
           class="m-2"
@@ -81,7 +71,7 @@
         </svg>
       </a>
 
-      <a href="https://bitcointalk.org/index.php?topic=1649695.0" target="_blank">
+      <a href="https://qredit.io/go/bitcointalk" target="_blank">
         <svg
           viewBox="0 0 24 24"
           class="m-2"
@@ -92,7 +82,7 @@
         </svg>
       </a>
 
-      <a href="https://ark.io/slack" target="_blank">
+      <a href="https://qredit.io/go/slack" target="_blank">
         <svg
           viewBox="0 0 24 24"
           class="m-2"
@@ -103,7 +93,7 @@
         </svg>
       </a>
 
-      <a href="https://ark.io/discord" target="_blank">
+      <a href="https://qredit.io/go/discord" target="_blank">
         <svg
           viewBox="0 0 24 24"
           class="m-2"
@@ -113,29 +103,9 @@
         </svg>
       </a>
 
-      <a href="https://gitter.im/ark-developers/Lobby" target="_blank">
-        <svg
-          viewBox="0 0 24 24"
-          class="m-2"
-          xmlns="http://www.w3.org/2000/svg"
-          xmlns:xlink="http://www.w3.org/1999/xlink"
-          width="16px" height="16px">
-          <path fill-rule="evenodd" fill="currentColor" d="M8.501 4.001H10.5V24H8.501V4.001zm6.999 0V24h-2V4.001h2zM3.5 0h2.001v15H3.5V0zm15 4.001h2V15h-2V4.001z" />
-        </svg>
-      </a>
 
-      <a href="https://steemit.com/@arkecosystem" target="_blank">
-        <svg
-          viewBox="0 0 24 24"
-          class="m-2"
-          xmlns="http://www.w3.org/2000/svg"
-          xmlns:xlink="http://www.w3.org/1999/xlink"
-          width="16px" height="16px">
-          <path fill-rule="evenodd" fill="currentColor" d="M3.927 2.596c.264.045-.397 1.778-.028 3.76.318 1.697 4.313 8.275 4.148 10.529-.128 1.418-3.408 4.74-3.753 4.52-.377-.105.996-2.361.486-4.244C4.19 14.97.673 9.301.677 6.798c0-1.832 3.011-4.32 3.25-4.202zM11.44.005c.336.058-.506 2.271-.034 4.791.405 2.17 5.501 10.555 5.292 13.432-.166 1.809-4.348 6.043-4.789 5.76-.479-.131 1.271-3.008.622-5.406-.755-2.796-5.238-10.026-5.235-13.218 0-2.338 3.842-5.509 4.144-5.359zm7.754 2.591c.27.045-.393 1.778-.023 3.761.318 1.697 4.313 8.275 4.148 10.529-.125 1.418-3.408 4.74-3.754 4.52-.377-.105.996-2.361.488-4.244-.594-2.192-4.11-7.861-4.105-10.363 0-1.832 3.014-4.32 3.248-4.202h-.002z" />
-        </svg>
-      </a>
 
-      <a href="https://blog.ark.io" target="_blank">
+      <a href="https://qredit.io/go/blog" target="_blank">
         <svg
           viewBox="0 0 24 24"
           class="m-2"
@@ -162,7 +132,7 @@ export default {
       return GIT_VERSION
     },
     versionLink() {
-      return `https://github.com/ArkEcosystem/explorer/commit/${GIT_VERSION}`
+      return `https://github.com/Qredit/explorer/commit/${GIT_VERSION}`
     },
     date() {
       return GIT_DATE

@@ -3,9 +3,9 @@ import * as types from '../mutation-types'
 export default {
   namespaced: true,
   state: {
-    name: 'ARK',
+    name: 'XQR',
     rate: 1,
-    symbol: 'Ѧ',
+    symbol: 'XQR',
     lastConversion: {
       to: 'USD',
       timestamp: 1,
