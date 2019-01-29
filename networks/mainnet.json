@@ -1,6 +1,6 @@
 {
   "title": "Qredit Explorer",
-  "server": "http://136.144.170.17:4103/api",
+  "server": "http://qredit.cloud:4103/api",
   "alias": "Main",
   "activeDelegates": 51,
   "rewardOffset": 75600,
