@@ -1,6 +1,6 @@
 {
   "title": "Qredit Explorer",
-  "server": "http://136.144.170.17:4101/api",
+  "server": "http://136.144.170.17:4103/api",
   "alias": "Main",
   "activeDelegates": 51,
   "rewardOffset": 75600,
@@ -22,8 +22,10 @@
     "USD": "$"
   },
   "knownWallets": {
-    "QMRhJyc1GDavB8RStdkPpaEbjrziYxgdsv": "Qredit Swap Wallet",
+    "QMRhJyc1GDavB8RStdkPpaEbjrziYxgdsv": "Qredit Swap Address",
     "QXcPMXiHx2cZ8RGmFCu8yUCWFMxMiLGv1H": "Qredit Shield",
+    "QPhFPEEXwZAT7WZSmFttDo3oCjeQufuke3": "Qredit Genesis",
+    "Qj92qkBDhfRJovpZhSgkb1ezCU3tcYw4Bk": "Qredit Bounty Address",
     "QjmG1PUnCh1ip9tZnt24FAQv9eXnsERsYk": "Altilly"
   },
   "defaults": {
