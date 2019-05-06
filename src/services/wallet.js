@@ -1,36 +1,24 @@
-import NodeService from '@/services/node'
+import ApiService from '@/services/api'
 
 class WalletService {
-  async find(address) {
-    const response = await NodeService.get('accounts', {
-      params: {address}
-    })
-    return response.data.account
+  async find (address) {
+    const response = await ApiService.get(`wallets/${address}`)
+    return response.data
   }
 
-  async vote(address) {
-    const response = await NodeService.get('accounts/delegates', {
+  async top (page = 1, limit = 25) {
+    const response = await ApiService.get('wallets/top', {
       params: {
-        address
+        page,
+        limit
       }
     })
-
-    const delegate = response.data.delegates[0]
-
-    return delegate || false
+    return response
   }
 
-  async top(page = 1, limit = 25) {
-    const offset = page > 1 ? (page - 1) * limit : 0
-
-    const response = await NodeService.get('accounts/top', {
-      params: {
-        orderBy: 'balance:desc',
-        limit,
-        offset
-      }
-    })
-    return response.data.accounts
+  async search (data, config = {}) {
+    const response = await ApiService.post('wallets/search', data, config)
+    return response
   }
 }
 

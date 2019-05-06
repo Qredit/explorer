@@ -1,16 +1,27 @@
 <template>
-  <button class="flex-none" @click="copy" v-tooltip="getTooltip()">
-    <img class="block" :class="{ 'animated wobble': copying }" src="@/assets/images/icons/copy.svg" ref="copyImage" />
+  <button
+    v-tooltip="getTooltip()"
+    class="flex-none"
+    @click="copy"
+  >
+    <img
+      ref="copyImage"
+      class="block"
+      :class="{ 'animated wobble': copying }"
+      src="@/assets/images/icons/copy.svg"
+    >
   </button>
 </template>
 
 <script type="text/ecmascript-6">
 export default {
+  name: 'Clipboard',
+
   props: {
     value: {
       type: String,
-      required: true,
-    },
+      required: true
+    }
   },
 
   data: () => ({
@@ -19,7 +30,7 @@ export default {
   }),
 
   methods: {
-    getTooltip() {
+    getTooltip () {
       const tooltip = {
         content: this.$i18n.t('Copy to clipboard'),
         trigger: 'hover',
@@ -32,24 +43,46 @@ export default {
 
         if (this.notSupported) {
           tooltip.content = this.$i18n.t('Error!')
-          tooltip.classes ='tooltip-bg-2'
+          tooltip.classes = 'tooltip-bg-2'
         } else {
           tooltip.content = this.$i18n.t('Copied!')
-          tooltip.classes ='tooltip-bg-0'
+          tooltip.classes = 'tooltip-bg-0'
         }
       }
 
       return tooltip
     },
 
-    copy() {
+    copy () {
       let textArea = document.createElement('textarea')
       textArea.value = this.value
       textArea.style.cssText =
         'position:absolute;top:0;left:0;z-index:-9999;opacity:0;'
 
       document.body.appendChild(textArea)
-      textArea.select()
+
+      const isiOSDevice = navigator.userAgent.match(/ipad|iphone/i)
+
+      if (isiOSDevice) {
+        const editable = textArea.contentEditable
+        const readOnly = textArea.readOnly
+
+        textArea.contentEditable = true
+        textArea.readOnly = false
+
+        const range = document.createRange()
+        range.selectNodeContents(textArea)
+
+        const selection = window.getSelection()
+        selection.removeAllRanges()
+        selection.addRange(range)
+
+        textArea.setSelectionRange(0, 999999)
+        textArea.contentEditable = editable
+        textArea.readOnly = readOnly
+      } else {
+        textArea.select()
+      }
 
       this.copying = true
       setTimeout(() => (this.copying = false), 1200)
@@ -62,7 +95,7 @@ export default {
       }
 
       document.body.removeChild(textArea)
-    },
-  },
+    }
+  }
 }
 </script>

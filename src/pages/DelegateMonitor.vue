@@ -1,68 +1,82 @@
 <template>
   <div class="max-w-2xl mx-auto md:pt-5">
-    <content-header>{{ $t("Delegate Monitor") }}</content-header>
+    <ContentHeader>{{ $t("Delegate Monitor") }}</ContentHeader>
 
-    <delegate-detail :delegateCount="delegateCount"></delegate-detail>
+    <MonitorHeader />
 
     <section class="page-section py-5 md:py-10">
       <nav class="mx-5 sm:mx-10 mb-4 border-b flex items-end">
         <div
+          :class="activeTab === 'active' ? 'active-tab' : 'inactive-tab'"
           @click="activeTab = 'active'"
-          :class="activeTab === 'active' ? 'active-tab' : 'inactive-tab'">
+        >
           {{ $t("Active") }}
         </div>
         <div
+          :class="activeTab === 'standby' ? 'active-tab' : 'inactive-tab'"
           @click="activeTab = 'standby'"
-          :class="activeTab === 'standby' ? 'active-tab' : 'inactive-tab'">
+        >
           {{ $t("Standby") }}
         </div>
       </nav>
 
-      <forging :delegates="delegates" v-show="activeTab === 'active'"></forging>
+      <ForgingStats
+        v-show="activeTab === 'active'"
+        :delegates="delegates"
+      />
 
-      <active-delegates v-if="activeTab === 'active'" :delegates="delegates"></active-delegates>
+      <ActiveDelegates
+        v-if="activeTab === 'active'"
+        :delegates="delegates"
+      />
 
-      <standby-delegates v-if="activeTab === 'standby'"></standby-delegates>
+      <StandbyDelegates v-if="activeTab === 'standby'" />
     </section>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-import DelegateDetail from '@/components/monitor/Details'
-import ActiveDelegates from '@/components/monitor/ActiveDelegates'
-import StandbyDelegates from '@/components/monitor/StandbyDelegates'
-import Forging from '@/components/monitor/Forging'
+import {
+  ActiveDelegates,
+  MonitorHeader,
+  ForgingStats,
+  StandbyDelegates
+} from '@/components/monitor'
 import DelegateService from '@/services/delegate'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
-    DelegateDetail,
-    Forging,
     ActiveDelegates,
-    StandbyDelegates,
+    MonitorHeader,
+    ForgingStats,
+    StandbyDelegates
   },
 
   data: () => ({
     delegates: null,
-    delegateCount: 0,
     activeTab: 'active'
   }),
 
-  async mounted() {
-    await this.prepareComponent()
+  computed: {
+    ...mapGetters('network', ['height'])
+  },
+
+  watch: {
+    async height () {
+      await this.setDelegates()
+    }
+  },
+
+  async created () {
+    await this.setDelegates()
   },
 
   methods: {
-    async prepareComponent() {
-      await this.getDelegates()
-
-      this.$store.watch(state => state.network.height, value => this.getDelegates())
-    },
-
-    async getDelegates() {
-      const response = await DelegateService.activeDelegates()
-      this.delegates = response.delegates
-      this.delegateCount = response.delegateCount
+    async setDelegates () {
+      if (this.height) {
+        this.delegates = await DelegateService.active()
+      }
     }
   }
 }

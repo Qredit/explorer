@@ -1,44 +1,83 @@
 <template>
   <div class="max-w-2xl mx-auto md:pt-5">
-    <content-header>{{ $t("Top Wallets") }}</content-header>
+    <ContentHeader>{{ $t("Top Wallets") }}</ContentHeader>
     <section class="page-section py-5 md:py-10">
       <div class="hidden sm:block">
-        <table-wallets :wallets="wallets" :total="supply"></table-wallets>
+        <TableWalletsDesktop
+          :wallets="wallets"
+          :total="supply"
+        />
       </div>
       <div class="sm:hidden">
-        <table-wallets-mobile :wallets="wallets" :total="supply"></table-wallets-mobile>
+        <TableWalletsMobile
+          :wallets="wallets"
+          :total="supply"
+        />
       </div>
-      <paginator v-if="wallets && wallets.length" :start="+this.$route.params.page"></paginator>
+      <Paginator
+        v-if="showPaginator"
+        :previous="meta.previous"
+        :next="meta.next"
+        @previous="onPrevious"
+        @next="onNext"
+      />
     </section>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-import { mapGetters } from 'vuex'
 import WalletService from '@/services/wallet'
+import { mapGetters } from 'vuex'
 
 export default {
-  data: () => ({ wallets: null }),
+  data: () => ({
+    wallets: null,
+    meta: null,
+    currentPage: 0
+  }),
+
+  computed: {
+    ...mapGetters('network', ['supply']),
+
+    showPaginator () {
+      return this.meta && (this.meta.previous || this.meta.next)
+    }
+  },
+
+  watch: {
+    currentPage () {
+      this.changePage()
+    }
+  },
+
+  created () {
+    this.$on('paginatorChanged', page => this.changePage(page))
+  },
 
   async beforeRouteEnter (to, from, next) {
-    const response = await WalletService.top(to.params.page)
-    next(vm => vm.setWallets(response))
+    try {
+      const { meta, data } = await WalletService.top(to.params.page)
+
+      next(vm => {
+        vm.currentPage = to.params.page
+        vm.setWallets(data)
+        vm.setMeta(meta)
+      })
+    } catch (e) { next({ name: '404' }) }
   },
 
   async beforeRouteUpdate (to, from, next) {
     this.wallets = null
+    this.meta = null
 
-    const response = await WalletService.top(to.params.page)
-    this.setWallets(response)
-    next()
-  },
+    try {
+      const { meta, data } = await WalletService.top(to.params.page)
 
-  computed: {
-    ...mapGetters('network', ['supply'])
-  },
-
-  created() {
-    this.$on('paginatorChanged', page => this.changePage(page))
+      this.currentPage = to.params.page
+      this.setWallets(data)
+      this.setMeta(meta)
+      next()
+    } catch (e) { next({ name: '404' }) }
   },
 
   methods: {
@@ -46,8 +85,25 @@ export default {
       this.wallets = wallets
     },
 
-    changePage(page) {
-      this.$router.push({ name: 'top-wallets', params: { page } })
+    setMeta (meta) {
+      this.meta = meta
+    },
+
+    onPrevious () {
+      this.currentPage = Number(this.currentPage) - 1
+    },
+
+    onNext () {
+      this.currentPage = Number(this.currentPage) + 1
+    },
+
+    changePage () {
+      this.$router.push({
+        name: 'top-wallets',
+        params: {
+          page: this.currentPage
+        }
+      })
     }
   }
 }

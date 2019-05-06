@@ -37,6 +37,7 @@
       "name": "USD",
       "symbol": "$"
     },
-    "priceChart": true
+    "priceChart": true,
+    "priceChartPeriod": "day"
   }
 }

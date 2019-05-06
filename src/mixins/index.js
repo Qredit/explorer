@@ -6,7 +6,7 @@ import store from '@/store'
 const locale = store.getters['ui/locale']
 
 const methods = {
-  isDelegateByAddress(address) {
+  isDelegateByAddress (address) {
     return (
       store.getters['delegates/delegates'].filter(
         d => d.address === address
@@ -14,7 +14,7 @@ const methods = {
     )
   },
 
-  isDelegateByPublicKey(publicKey) {
+  isDelegateByPublicKey (publicKey) {
     return (
       store.getters['delegates/delegates'].filter(
         d => d.publicKey === publicKey
@@ -22,42 +22,21 @@ const methods = {
     )
   },
 
-  readableTimestamp(value) {
-    return moment()
-      .utc()
-      .set({
-        year: 2017,
-        month: 2,
-        date: 21,
-        hour: 13,
-        minute: 0,
-        second: 0,
-      })
-      .add(value, 'seconds')
+  readableTimestamp (value) {
+    return moment
+      .unix(value)
       .local()
       .format('L LTS')
   },
 
-  readableTimestampAgo(time, compareTime) {
-    const getTime = function (t) {
-      return moment()
-        .utc()
-        .set({
-          year: 2017,
-          month: 2,
-          date: 21,
-          hour: 13,
-          minute: 0,
-          second: 0,
-        })
-        .add(t, 'seconds')
-    }
-
-    const momentTime = getTime(time)
-    return typeof compareTime !== 'undefined' ? momentTime.from(getTime(compareTime)) : momentTime.fromNow()
+  readableTimestampAgo (time, compareTime) {
+    const momentTime = moment
+      .unix(time)
+      .local()
+    return typeof compareTime !== 'undefined' ? momentTime.from(moment.unix(compareTime).local()) : momentTime.fromNow()
   },
 
-  truncate(value, length = 13, truncateWhere = 'middle') {
+  truncate (value, length = 13, truncateWhere = 'middle') {
     switch (truncateWhere) {
       case 'left':
         return (value.length > length)
@@ -81,45 +60,45 @@ const methods = {
     }
   },
 
-  rawCurrency(value, currencyName) {
+  rawCurrency (value, currencyName) {
     return [store.getters['network/token'], 'BTC', 'ETH', 'LTC'].some(
       c => currencyName.indexOf(c) > -1
     )
       ? value.toLocaleString(locale, {
-        maximumFractionDigits: 8,
+        maximumFractionDigits: 8
       })
       : value.toLocaleString(locale, {
         minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
+        maximumFractionDigits: 2
       })
   },
 
-  readableNumber(value, digits = 2, separator = false) {
+  readableNumber (value, digits = 2, separator = false) {
     if (!separator) {
       return value.toFixed(digits)
     }
 
     return value.toLocaleString(locale, {
       minimumFractionDigits: digits,
-      maximumFractionDigits: digits,
+      maximumFractionDigits: digits
     })
   },
 
-  readableFiat(value) {
+  readableFiat (value) {
     return new Intl.NumberFormat(locale, {
       style: 'currency',
       currency: store.getters['currency/name'],
-      minimumFractionDigits: 2,
+      minimumFractionDigits: 2
     }).format(value)
   },
 
-  readableCurrency(value, rate = null, currency = null, normalise = true) {
+  readableCurrency (value, rate = null, currency = null, normalise = true) {
     const currencyName = currency || store.getters['currency/name']
 
     value *= rate || store.getters['currency/rate']
 
     if (normalise) {
-      value /= Math.pow(10, 8)
+      value /= 1e8
     }
 
     const cryptos = {
@@ -141,10 +120,10 @@ const methods = {
       })
   },
 
-  readableCrypto(value, appendCurrency = true, decimals = 8) {
+  readableCrypto (value, appendCurrency = true, decimals = 8) {
     if (typeof value !== 'undefined') {
-      value = (value /= Math.pow(10, 8)).toLocaleString(locale, {
-        maximumFractionDigits: decimals,
+      value = (value /= 1e8).toLocaleString(locale, {
+        maximumFractionDigits: decimals
       })
 
       return appendCurrency ? `${value} ${
@@ -155,17 +134,17 @@ const methods = {
     }
   },
 
-  networkToken() {
+  networkToken () {
     return store.getters['network/token'] ||
       store.getters['network/defaults'].token ||
-      ""
+      ''
   },
 
-  capitalize(value) {
+  capitalize (value) {
     return value.charAt(0).toUpperCase() + value.slice(1)
   },
 
-  percentageString(value, decimals = 2) {
+  percentageString (value, decimals = 2) {
     if (typeof value !== 'undefined') {
       return (value / 100).toLocaleString(locale, {
         minimumFractionDigits: decimals,
@@ -177,13 +156,13 @@ const methods = {
     return '-'
   },
 
-  emojify(text) {
+  emojify (text) {
     return emoji.emojify(text)
   }
 }
 
 Vue.mixin({
-  methods,
+  methods
 })
 
 export default methods

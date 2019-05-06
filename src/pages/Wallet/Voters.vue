@@ -1,95 +1,114 @@
 <template>
   <div class="max-w-2xl mx-auto md:pt-5">
-    <content-header>{{ $t("Voters") }} <span v-show="username">- {{ username }}</span></content-header>
+    <ContentHeader>{{ $t("Voters") }} <span v-if="delegate">- {{ delegate.username }}</span></ContentHeader>
     <section class="page-section py-5 md:py-10">
       <div class="hidden sm:block">
-        <table-wallets :wallets="filteredWallets" :total="votes"></table-wallets>
+        <TableWalletsDesktop
+          :wallets="wallets"
+          :total="delegate ? delegate.votes : 0"
+        />
       </div>
       <div class="sm:hidden">
-        <table-wallets-mobile :wallets="filteredWallets" :total="votes"></table-wallets-mobile>
+        <TableWalletsMobile
+          :wallets="wallets"
+          :total="delegate ? delegate.votes : 0"
+        />
       </div>
-      <paginator v-if="wallets && wallets.length" :start="+this.page" :count="count"></paginator>
+      <Paginator
+        v-if="showPaginator"
+        :previous="meta.previous"
+        :next="meta.next"
+        @previous="onPrevious"
+        @next="onNext"
+      />
     </section>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-import WalletService from '@/services/wallet'
 import DelegateService from '@/services/delegate'
-import sumBy from 'lodash/sumBy'
 
 export default {
   data: () => ({
-    username: null,
+    delegate: null,
     wallets: null,
-    perPage: 25,
+    meta: null,
+    currentPage: 0
   }),
 
-  created() {
-    this.$on('paginatorChanged', page => this.changePage(page))
-  },
-
   computed: {
-    filteredWallets() {
-      if (!this.wallets) return null
-
-      let page = this.page - 1
-
-      return this.wallets.slice(page * this.perPage, (page + 1) * this.perPage)
+    showPaginator () {
+      return this.meta && (this.meta.previous || this.meta.next)
     },
-    page() {
-      return this.$route.params.page
-    },
-    votes() {
-      return sumBy(this.wallets, 'balance')
-    },
-    count() {
-      return this.wallets.length
+    address () {
+      return this.$route.params.address
     }
   },
 
-  async beforeRouteEnter(to, from, next) {
-    try {
-      const wallet = await WalletService.find(to.params.address)
-      const voters = await DelegateService.voters(wallet.publicKey)
-      next(vm => {
-        vm.setWallets(voters),
-        vm.setUsername(to.params.username)
-      })
-    } catch(e) { next({ name: '404' }) }
+  watch: {
+    currentPage () {
+      this.changePage()
+    }
   },
 
-  async beforeRouteUpdate(to, from, next) {
+  async beforeRouteEnter (to, from, next) {
+    try {
+      const delegate = await DelegateService.find(to.params.address)
+      const { meta, data } = await DelegateService.voters(to.params.address, to.params.page)
+
+      next(vm => {
+        vm.currentPage = to.params.page
+        vm.setDelegate(delegate)
+        vm.setWallets(data)
+        vm.setMeta(meta)
+      })
+    } catch (e) { next({ name: '404' }) }
+  },
+
+  async beforeRouteUpdate (to, from, next) {
     this.wallets = null
+    this.meta = null
 
     try {
-      const wallet = await WalletService.find(to.params.address)
-      const voters = await DelegateService.voters(wallet.publicKey)
-      this.setWallets(voters)
-      this.setUsername(to.params.username)
+      const delegate = await DelegateService.find(to.params.address)
+      const { meta, data } = await DelegateService.voters(to.params.address, to.params.page)
+
+      this.currentPage = to.params.page
+      this.setDelegate(delegate)
+      this.setWallets(data)
+      this.setMeta(meta)
       next()
-    } catch(e) { next({ name: '404' }) }
+    } catch (e) { next({ name: '404' }) }
   },
 
   methods: {
-    setWallets(wallets) {
+    setDelegate (delegate) {
+      this.delegate = delegate
+    },
+
+    setWallets (wallets) {
       this.wallets = wallets
     },
 
-    async setUsername(username) {
-      if (username === undefined) {
-        const wallet = await WalletService.find(this.$route.params.address)
-        const delegate = await DelegateService.find(wallet.publicKey)
-        this.username = delegate.username
-      } else {
-        this.username = username
-      }
+    setMeta (meta) {
+      this.meta = meta
     },
 
-    changePage(page) {
+    onPrevious () {
+      this.currentPage = Number(this.currentPage) - 1
+    },
+
+    onNext () {
+      this.currentPage = Number(this.currentPage) + 1
+    },
+
+    changePage (page) {
       this.$router.push({
         name: 'wallet-voters',
-        params: { address: this.$route.params.address, username: this.username, page }
+        params: {
+          address: this.address,
+          page: this.currentPage
+        }
       })
     }
   }

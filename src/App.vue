@@ -1,23 +1,22 @@
 <template>
-  <main :class="[
-    nightMode ? 'theme-dark' : 'theme-light',
-    'bg-theme-page-background text-theme-text-content min-h-screen font-sans xl:pt-8'
-  ]">
-    <app-header></app-header>
+  <main
+    :class="[
+      nightMode ? 'theme-dark' : 'theme-light',
+      'bg-theme-page-background text-theme-text-content min-h-screen font-sans xl:pt-8'
+    ]"
+  >
+    <AppHeader />
 
-    <router-view></router-view>
+    <RouterView />
 
-    <app-footer></app-footer>
+    <AppFooter />
   </main>
 </template>
 
 <script type="text/ecmascript-6">
-import AppHeader from '@/components/header/Main'
-import AppFooter from '@/components/Footer'
-import CryptoCompareService from '@/services/crypto-compare'
-import BlockService from '@/services/block'
-import DelegateService from '@/services/delegate'
-import LoaderService from '@/services/loader'
+import AppHeader from '@/components/header/AppHeader'
+import AppFooter from '@/components/AppFooter'
+import { BlockchainService, CryptoCompareService, DelegateService, NodeService } from '@/services'
 import { mapGetters } from 'vuex'
 import moment from 'moment'
 
@@ -31,12 +30,18 @@ export default {
     networkTimer: null
   }),
 
-  async created() {
+  computed: {
+    ...mapGetters('currency', { currencyName: 'name' }),
+    ...mapGetters('ui', ['language', 'locale', 'nightMode']),
+    ...mapGetters('network', ['token'])
+  },
+
+  async created () {
     const network = require(`../networks/${process.env.EXPLORER_CONFIG}`)
 
     this.$store.dispatch(
       'ui/setNightMode',
-      localStorage.getItem('nightMode') || ((network.alias === 'Development') ? true : false)
+      localStorage.getItem('nightMode') || ((network.alias === 'Development'))
     )
 
     this.$store.dispatch('network/setDefaults', network.defaults)
@@ -60,7 +65,7 @@ export default {
       )
     }
 
-    const response = await LoaderService.config()
+    const response = await NodeService.config()
     this.$store.dispatch('network/setToken', response.token)
     this.$store.dispatch('network/setSymbol', response.symbol)
     this.$store.dispatch('network/setNethash', response.nethash)
@@ -80,6 +85,11 @@ export default {
       localStorage.getItem('priceChart') || network.defaults.priceChart
     )
 
+    this.$store.dispatch(
+      'ui/setPriceChartPeriod',
+      localStorage.getItem('priceChartPeriod') || network.defaults.priceChartPeriod
+    )
+
     this.updateI18n()
     this.updateLocale()
     this.updateCurrencyRate()
@@ -88,52 +98,50 @@ export default {
     this.updateDelegates()
   },
 
-  mounted() {
+  mounted () {
     this.prepareComponent()
   },
 
-  computed: {
-    ...mapGetters('currency', { currencyName: 'name' }),
-    ...mapGetters('ui', ['language', 'locale', 'nightMode']),
-    ...mapGetters('network', ['token']),
+  beforeDestroy () {
+    this.clearTimers()
   },
 
   methods: {
-    prepareComponent() {
+    prepareComponent () {
       this.initialiseTimers()
     },
 
-    async updateCurrencyRate() {
+    async updateCurrencyRate () {
       if (this.currencyName !== this.token) {
         const rate = await CryptoCompareService.price(this.currencyName)
         this.$store.dispatch('currency/setRate', rate)
       }
     },
 
-    async updateSupply() {
-      const supply = await BlockService.supply()
+    async updateSupply () {
+      const supply = await BlockchainService.supply()
       this.$store.dispatch('network/setSupply', supply)
     },
 
-    async updateHeight() {
-      const height = await BlockService.height()
+    async updateHeight () {
+      const height = await BlockchainService.height()
       this.$store.dispatch('network/setHeight', height)
     },
 
-    async updateDelegates() {
+    async updateDelegates () {
       const delegates = await DelegateService.all()
       this.$store.dispatch('delegates/setDelegates', delegates)
     },
 
-    updateI18n() {
+    updateI18n () {
       this.$i18n.locale = this.language
     },
 
-    updateLocale() {
+    updateLocale () {
       moment.locale(this.locale)
     },
 
-    initialiseTimers() {
+    initialiseTimers () {
       this.currencyTimer = setInterval(() => {
         this.updateCurrencyRate()
       }, 5 * 60 * 1000)
@@ -145,14 +153,10 @@ export default {
       }, 8 * 1000)
     },
 
-    clearTimers() {
+    clearTimers () {
       clearInterval(this.currencyTimer)
       clearInterval(this.networkTimer)
     }
-  },
-
-  beforeDestroy() {
-    this.clearTimers()
-  },
+  }
 }
 </script>

@@ -1,47 +1,63 @@
 <template>
-  <div v-show="Object.keys(delegate).length">
+  <div v-if="delegate">
     <div class="list-row-border-b">
       <div>{{ $t("Delegate") }}</div>
       <div>{{ delegate.username }}</div>
     </div>
 
     <div class="list-row-border-b">
-      <div>{{ $t("Uptime") }}</div>
-      <div>{{ percentageString(delegate.productivity) }}</div>
-    </div>
-
-    <div class="list-row-border-b">
       <div>{{ $t("Rank/Status") }}</div>
-      <div>{{ delegate.rate }}</div>
+      <div>{{ delegate.rank }}</div>
     </div>
 
     <div class="list-row-border-b">
-      <div>{{ $t("Vote %") }}</div>
-      <div v-tooltip="{ trigger: 'hover click', content: readableCrypto(this.delegate.vote, true, 2), placement: 'left' }">
-        {{ percentageString(delegate.approval) }}
+      <div>{{ $t("Votes") }}</div>
+      <div
+        v-if="delegate.production"
+      >
+        <span
+          v-tooltip="delegate.votes ? {
+            trigger: 'hover click',
+            content: $t('Percentage of the total supply'),
+            placement: 'left'
+          } : {}"
+          class="text-grey text-2xs mr-1"
+        >
+          {{ percentageString(delegate.production.approval) }}
+        </span>
+        {{ readableCrypto(delegate.votes, true, 2) }}
       </div>
     </div>
 
     <div class="list-row-border-b">
       <div>{{ $t("Forged") }}</div>
-      <div>{{ readableCrypto(delegate.forged) }}</div>
+      <div v-if="delegate.forged">
+        {{ readableCrypto(delegate.forged.total) }}
+      </div>
     </div>
 
     <div class="list-row">
       <div>{{ $t("Blocks") }}</div>
-      <div>
-        <span :class="{ 'mr-2': !delegate.missedblocks && delegate.producedblocks }">{{ delegate.producedblocks }}</span>
-        <span v-if="delegate.missedblocks" class="text-grey" :class="{ 'mr-2': delegate.producedblocks }">({{ delegate.missedblocks }} {{ $t("missed") }})</span>
-        <router-link v-if="delegate.producedblocks" :to="{ name: 'wallet-blocks', params: { address: delegate.address, username: delegate.username, page: 1 } }">{{ $t("See all") }}</router-link>
+      <div v-if="delegate.blocks">
+        <span>
+          {{ delegate.blocks.produced }}
+        </span>
+        <RouterLink
+          v-if="delegate.blocks.produced"
+          :to="{ name: 'wallet-blocks', params: { address: delegate.address, username: delegate.username, page: 1 } }"
+          class="ml-2"
+        >
+          {{ $t("See all") }}
+        </RouterLink>
       </div>
     </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-import DelegateService from '@/services/delegate'
-
 export default {
+  name: 'WalletDelegate',
+
   props: {
     wallet: {
       type: Object,
@@ -49,22 +65,9 @@ export default {
     }
   },
 
-  data: () => ({ delegate: {} }),
-
-  watch: {
-    async wallet(wallet) {
-      if (wallet.publicKey) await this.getDelegate(wallet)
-    }
-  },
-
-  methods: {
-    async getDelegate(wallet) {
-      try {
-        const response = await DelegateService.find(wallet.publicKey)
-        this.delegate = response
-
-        this.$emit('username', response.username)
-      } catch(e) { console.log(e.message || e.data.error) }
+  computed: {
+    delegate () {
+      return this.$store.getters['delegates/byPublicKey'](this.wallet.publicKey)
     }
   }
 }

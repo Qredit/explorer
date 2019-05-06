@@ -1,178 +1,101 @@
-import NodeService from '@/services/node'
+import ApiService from '@/services/api'
 
 class TransactionService {
-  async latest(limit = 25) {
-    const response = await NodeService.get('transactions', {
+  async latest (limit = 25) {
+    const response = await ApiService.get('transactions', {
       params: {
         orderBy: 'timestamp:desc',
         limit
       }
     })
-    return response.data.transactions
+
+    return response.data
   }
 
-  async filterByType(page, type, limit = 25) {
-    const offset = (page > 1) ? (page - 1) * limit : 0
+  async find (id) {
+    const response = await ApiService.get(`transactions/${id}`)
+    return response.data
+  }
 
+  async filterByType (page, type, limit = 25) {
     const params = {
-      limit,
-      offset
+      page,
+      limit
     }
 
     if (type !== -1) {
       params.type = type
     }
 
-    const response = await NodeService.get('transactions', {
+    const response = await ApiService.get('transactions', {
       params: params
     })
-    return response.data.transactions
+
+    return response
   }
 
-  async find(id) {
-    const response = await NodeService.get('transactions/get', {
+  async byBlock (id, page = 1, limit = 25) {
+    const response = await ApiService.get(`blocks/${id}/transactions`, {
       params: {
-        id
+        page,
+        limit
       }
     })
-    return response.data.transaction
+
+    return response
   }
 
-  async findByBlock(id, page = 1, limit = 25) {
-    const offset = page > 1 ? (page - 1) * limit : 0
-
-    const response = await NodeService.get('transactions', {
+  async allByAddress (address, page = 1, limit = 25) {
+    const response = await ApiService.get(`wallets/${address}/transactions`, {
       params: {
-        blockId: id,
-        limit,
-        offset,
-        orderBy: 'timestamp:desc'
+        page,
+        limit
       }
     })
-    return response.data.transactions
+
+    return response
   }
 
-  async latestRegistrations() {
-    const response = await NodeService.get('transactions', {
+  async sentByAddress (address, page = 1, limit = 25) {
+    const response = await ApiService.get(`wallets/${address}/transactions/sent`, {
       params: {
-        orderBy: 'timestamp:desc',
-        limit: 5,
-        type: 2
+        page,
+        limit
       }
     })
-    return response.data.transactions
+
+    return response
   }
 
-  async latestVotes() {
-    const response = await NodeService.get('transactions', {
+  async receivedByAddress (address, page = 1, limit = 25) {
+    const response = await ApiService.get(`wallets/${address}/transactions/received`, {
       params: {
-        orderBy: 'timestamp:desc',
-        limit: 5,
-        type: 3
+        page,
+        limit
       }
     })
-    return response.data.transactions
+
+    return response
   }
 
-  async allByAddress(address, page = 1, limit = 25) {
-    const offset = page > 1 ? (page - 1) * limit : 0
-
-    const response = await NodeService.get('transactions', {
-      params: {
-        senderId: address,
-        recipientId: address,
-        limit,
-        offset,
-        orderBy: 'timestamp:desc'
-      }
-    })
-    return response.data.transactions
-  }
-
-  async sentByAddress(senderId, page = 1, limit = 25) {
-    const offset = page > 1 ? (page - 1) * limit : 0
-
-    const response = await NodeService.get('transactions', {
-      params: {
-        senderId,
-        limit,
-        offset,
-        orderBy: 'timestamp:desc'
-      }
-    })
-    return response.data.transactions
-  }
-
-  async receivedByAddress(recipientId, page = 1, limit = 25) {
-    const offset = page > 1 ? (page - 1) * limit : 0
-
-    const response = await NodeService.get('transactions', {
-      params: {
-        recipientId,
-        limit,
-        offset,
-        orderBy: 'timestamp:desc'
-      }
-    })
-    return response.data.transactions
-  }
-
-  async sentByAddressCount(senderId) {
-    const response = await NodeService.get('transactions', {
+  async sentByAddressCount (senderId) {
+    const response = await ApiService.get('transactions', {
       params: {
         senderId,
         limit: 1
       }
     })
-    return response.data.count
+    return response.meta.totalCount
   }
 
-  async receivedByAddressCount(recipientId) {
-    const response = await NodeService.get('transactions', {
+  async receivedByAddressCount (recipientId) {
+    const response = await ApiService.get('transactions', {
       params: {
         recipientId,
         limit: 1
       }
     })
-    return response.data.count
-  }
-
-  async findByBlockCount(blockId) {
-    const response = await NodeService.get('transactions', {
-      params: {
-        blockId,
-        limit: 1
-      }
-    })
-    return response.data.count
-  }
-
-  async paginate(page, limit = 25) {
-    const offset = (page > 1) ? (page - 1) * limit : 0
-
-    const response = await NodeService.get('transactions', {
-      params: {
-        orderBy: 'timestamp:desc',
-        limit,
-        offset
-      }
-    })
-    return response.data.transactions
-  }
-
-  async paginateByAddress(address, page = 1, limit = 25) {
-    const offset = (page > 1) ? (page - 1) * limit : 0
-
-    const response = await NodeService.get('transactions', {
-      params: {
-        senderId: address,
-        recipientId: address,
-        limit,
-        offset,
-        orderBy: 'timestamp:desc'
-      }
-    })
-    return response.data.transactions
+    return response.meta.totalCount
   }
 }
 

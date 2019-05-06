@@ -1,107 +1,71 @@
-import NodeService from '@/services/node'
+import ApiService from '@/services/api'
 
 class BlockService {
-  async latest(limit = 25) {
-    const response = await NodeService.get('blocks', {
+  async latest (limit = 25) {
+    const response = await ApiService.get('blocks', {
       params: {
-        orderBy: 'height:desc',
         limit
       }
     })
-    return response.data.blocks
+
+    return response.data
   }
 
-  async last() {
-    const response = await NodeService.get('blocks', {
+  async last () {
+    const response = await ApiService.get('blocks', {
       params: {
-        orderBy: 'height:desc',
-        limit: 1
-      }
-    })
-    return response.data.blocks[0]
-  }
-
-  async height() {
-    const response = await NodeService.get('blocks/getHeight')
-    return response.data.height
-  }
-
-  async supply() {
-    const response = await NodeService.get('blocks/getSupply')
-    return response.data.supply
-  }
-
-  async find(id) {
-    const response = await NodeService.get('blocks/get', {
-      params: {
-        id
-      }
-    })
-    return response.data.block
-  }
-
-  async paginate(page, limit = 25) {
-    const offset = page > 1 ? (page - 1) * limit : 0
-
-    const response = await NodeService.get('blocks', {
-      params: {
-        orderBy: 'height:desc',
-        limit,
-        offset
-      }
-    })
-    return response.data.blocks
-  }
-
-  async getByPublicKey(generatorPublicKey, page, limit = 25) {
-    const offset = page > 1 ? (page - 1) * limit : 0
-
-    const response = await NodeService.get('blocks', {
-      params: {
-        orderBy: 'height:desc',
-        limit,
-        offset,
-        generatorPublicKey
-      }
-    })
-    return response.data.blocks
-  }
-
-  async forgedByPublicKeyCount(generatorPublicKey) {
-    const response = await NodeService.get('blocks', {
-      params: {
-        generatorPublicKey,
         limit: 1
       }
     })
 
-    // currently not supported by node
-    return response.data.count
+    return response.data[0]
   }
 
-  async lastBlockByPublicKey(publicKey) {
-    const response = await NodeService.get('blocks', {
+  async find (id) {
+    const response = await ApiService.get(`blocks/${id}`)
+    return response.data
+  }
+
+  async paginate (page, limit = 25) {
+    const response = await ApiService.get('blocks', {
       params: {
-        orderBy: 'height:desc',
-        limit: 1,
-        generatorPublicKey: publicKey
+        page,
+        limit
       }
     })
-    return response.data.blocks[0]
+
+    return response
   }
 
-  async findPrevious(height) {
-    const response = await NodeService.get('blocks', {
-      params: { height: height - 1 }
+  async byAddress (address, page, limit = 25) {
+    const response = await ApiService.get(`delegates/${address}/blocks`, {
+      params: {
+        page,
+        limit
+      }
     })
-    return response.data.blocks[0]
+
+    return response
   }
 
-  async findNext(height) {
-    const response = await NodeService.get('blocks', {
-      params: { height: height + 1 }
+  async findPrevious (height) {
+    const response = await ApiService.get('blocks', {
+      params: {
+        height: height - 1
+      }
     })
-    return response.data.blocks[0]
+
+    return response.data[0]
+  }
+
+  async findNext (height) {
+    const response = await ApiService.get('blocks', {
+      params: {
+        height: height + 1
+      }
+    })
+
+    return response.data[0]
   }
 }
 

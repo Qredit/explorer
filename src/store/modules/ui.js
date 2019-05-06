@@ -7,28 +7,32 @@ export default {
     locale: navigator.language || 'en-gb',
     nightMode: false,
     priceChart: true,
+    priceChartPeriod: 'day',
     headerType: null,
     menuVisible: false
   },
   mutations: {
-    [types.SET_UI_LANGUAGE](state, payload) {
+    [types.SET_UI_LANGUAGE] (state, payload) {
       state.language = payload.value
     },
-    [types.SET_UI_LOCALE](state, payload) {
+    [types.SET_UI_LOCALE] (state, payload) {
       state.locale = payload.value
     },
-    [types.SET_UI_NIGHT_MODE](state, payload) {
+    [types.SET_UI_NIGHT_MODE] (state, payload) {
       state.nightMode = payload.value
     },
-    [types.SET_UI_HEADER_TYPE](state, payload) {
+    [types.SET_UI_HEADER_TYPE] (state, payload) {
       state.headerType = payload.value
     },
-    [types.SET_UI_MENU_VISIBLE](state, payload) {
+    [types.SET_UI_MENU_VISIBLE] (state, payload) {
       state.menuVisible = payload.value
     },
-    [types.SET_UI_PRICE_CHART](state, payload) {
+    [types.SET_UI_PRICE_CHART] (state, payload) {
       state.priceChart = payload.value
     },
+    [types.SET_UI_PRICE_CHART_PERIOD] (state, payload) {
+      state.priceChartPeriod = payload.value
+    }
   },
   actions: {
     setLanguage: ({ commit }, value) => {
@@ -36,7 +40,7 @@ export default {
 
       commit({
         type: types.SET_UI_LANGUAGE,
-        value,
+        value
       })
     },
     setLocale: ({ commit }, value) => {
@@ -44,7 +48,7 @@ export default {
 
       commit({
         type: types.SET_UI_LOCALE,
-        value,
+        value
       })
     },
     setNightMode: ({ commit }, value) => {
@@ -54,48 +58,55 @@ export default {
 
       commit({
         type: types.SET_UI_NIGHT_MODE,
-        value,
+        value
       })
     },
     setHeaderType: ({ commit }, value) => {
       commit({
         type: types.SET_UI_MENU_VISIBLE,
-        value: null,
+        value: null
       })
 
       commit({
         type: types.SET_UI_HEADER_TYPE,
-        value,
+        value
       })
     },
     setMenuVisible: ({ commit }, value) => {
       commit({
         type: types.SET_UI_HEADER_TYPE,
-        value: null,
+        value: null
       })
 
       commit({
         type: types.SET_UI_MENU_VISIBLE,
-        value,
+        value
       })
     },
     setPriceChart: ({ commit }, value) => {
       localStorage.setItem('priceChart', value)
 
-      value = JSON.parse(value)
-
       commit({
         type: types.SET_UI_PRICE_CHART,
-        value,
+        value: JSON.parse(value)
       })
     },
+    setPriceChartPeriod: ({ commit }, value) => {
+      localStorage.setItem('priceChartPeriod', value)
+
+      commit({
+        type: types.SET_UI_PRICE_CHART_PERIOD,
+        value
+      })
+    }
   },
   getters: {
     language: state => state.language,
     locale: state => state.locale,
     nightMode: state => state.nightMode,
     priceChart: state => state.priceChart,
+    priceChartPeriod: state => state.priceChartPeriod,
     headerType: state => state.headerType,
-    menuVisible: state => state.menuVisible,
-  },
+    menuVisible: state => state.menuVisible
+  }
 }
