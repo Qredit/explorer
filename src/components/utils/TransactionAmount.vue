@@ -1,13 +1,22 @@
 <template>
   <span
+    v-tooltip="{
+      trigger: 'hover click',
+      content: transaction.amount && price ? readableCurrency(transaction.amount, price) : '',
+      placement: 'top'
+    }"
     :class="{
       'text-red': transaction.sender === $route.params.address,
       'text-green': transaction.recipient === $route.params.address && isTransfer,
     }"
-  >{{ readableCrypto(transaction.amount) }}</span>
+  >
+    {{ readableCrypto(transaction.amount) }}
+  </span>
 </template>
 
 <script type="text/ecmascript-6">
+import CryptoCompareService from '@/services/crypto-compare'
+
 export default {
   name: 'TransactionAmount',
 
@@ -22,6 +31,10 @@ export default {
     }
   },
 
+  data: () => ({
+    price: null
+  }),
+
   computed: {
     isTransfer () {
       if (this.type !== undefined) {
@@ -30,6 +43,23 @@ export default {
       }
       return false
     }
+  },
+
+  watch: {
+    transaction () {
+      this.updatePrice()
+    }
+  },
+
+  created () {
+    this.updatePrice()
+  },
+
+  methods: {
+    async updatePrice () {
+      this.price = await CryptoCompareService.dailyAverage(this.transaction.timestamp.unix)
+    }
   }
+
 }
 </script>
