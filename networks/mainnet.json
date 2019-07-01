@@ -3,7 +3,7 @@
   "server": "https://qredit.cloud/api/v2",
   "alias": "Main",
   "activeDelegates": 51,
-  "rewardOffset": 75600,
+  "rewardOffset": 1525519,
   "currencies": {
     "AUD": "A$",
     "BRL": "R$",
