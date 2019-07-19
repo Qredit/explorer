@@ -8,6 +8,7 @@ import NodeService from './node'
 import SearchService from './search'
 import TransactionService from './transaction'
 import WalletService from './wallet'
+import TokenService from './token'
 
 export {
   ApiService,
@@ -19,5 +20,6 @@ export {
   NodeService,
   SearchService,
   TransactionService,
-  WalletService
+  WalletService,
+  TokenService
 }

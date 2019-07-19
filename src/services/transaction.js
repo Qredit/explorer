@@ -1,4 +1,5 @@
 import ApiService from '@/services/api'
+import QreditSltService from '@/services/qreditslt'
 
 class TransactionService {
   async latest (limit = 25) {
@@ -14,6 +15,18 @@ class TransactionService {
 
   async find (id) {
     const response = await ApiService.get(`transactions/${id}`)
+
+    try {
+    	var vendorJson = JSON.parse(response.data.vendorField)
+
+    	if (vendorJson.qae1) {
+    		const tokenresponse = await QreditSltService.getTransaction(id)
+    		response.data.tokenData = tokenresponse[0]
+    	}
+    } catch (e) {
+    	// Do Nothing
+    }
+
     return response.data
   }
 

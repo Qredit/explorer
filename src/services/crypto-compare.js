@@ -5,7 +5,7 @@ import store from '@/store'
 const SECONDS_PER_DAY = 86400
 
 class CryptoCompareService {
-  async price(currency) {
+  async price (currency) {
     const response = await axios.get(`https://min-api.cryptocompare.com/data/price?fsym=XQR&tsyms=${currency}`)
     if (response.data.hasOwnProperty(currency)) {
       return Number(response.data[currency])

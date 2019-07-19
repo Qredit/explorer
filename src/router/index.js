@@ -4,6 +4,7 @@ import store from '@/store'
 
 const HomeComponent = () => import('@/pages/Home')
 const BlockComponent = () => import('@/pages/Block')
+const TokenComponent = () => import('@/pages/Token')
 const BlockTransactionsComponent = () => import('@/pages/Block/Transactions')
 const BlocksComponent = () => import('@/pages/Blocks')
 const WalletComponent = () => import('@/pages/Wallet')
@@ -158,6 +159,12 @@ const router = new Router({
     //   name: 'statistics',
     //   component: StatisticsComponent
     // },
+    {
+      path: '/token/:id',
+      name: 'token',
+      component: TokenComponent,
+      meta: { title: route => { return getTitle('Token') } }
+    },
     {
       path: '/404',
       name: '404',
