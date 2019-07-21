@@ -134,6 +134,20 @@ const methods = {
     }
   },
 
+  readableCryptoAlt (value, appendCurrency = true, decimals = 8) {
+    if (typeof value !== 'undefined') {
+      value = (value /= eval('1e' + decimals)).toLocaleString(locale, {
+        maximumFractionDigits: decimals
+      })
+
+      return appendCurrency ? `${value} ${
+        store.getters['network/symbol'] ||
+          store.getters['network/defaults'].symbol ||
+          ''
+      }` : value
+    }
+  },
+
   networkToken () {
     return store.getters['network/token'] ||
       store.getters['network/defaults'].token ||
@@ -157,7 +171,17 @@ const methods = {
   },
 
   emojify (text) {
-    return emoji.emojify(text)
+    var isjson = 0
+    try {
+      var jsondata = JSON.parse(text)
+      isjson = 1
+    } catch (e) {
+    }
+    if (isjson == 1 && jsondata.qae1) {
+      return 'QAE-1'
+    } else {
+      return emoji.emojify(text)
+    }
   }
 }
 

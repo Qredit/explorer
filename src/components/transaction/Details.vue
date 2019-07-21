@@ -99,6 +99,90 @@
         </div>
       </div>
     </div>
+
+    <div
+      v-if="transaction.tokenData"
+      class="px-5 sm:px-10"
+    >
+      <div class="list-row-border-b">
+        <div><strong>{{ $t("TokenDetails") }}</strong></div>
+        <div />
+      </div>
+
+      <div class="list-row-border-b">
+        <div>{{ $t("TokenId") }}</div>
+        <div>
+          <LinkToken
+            v-if="transaction.tokenData.transactionDetails.tokenIdHex"
+            :id="transaction.tokenData.transactionDetails.tokenIdHex"
+          >
+            {{ transaction.tokenData.transactionDetails.tokenIdHex }}
+          </LinkToken>
+        </div>
+      </div>
+
+      <div class="list-row-border-b">
+        <div>{{ $t("TokenSymbol") }}</div>
+        <div>{{ transaction.tokenData.transactionDetails.symbol }}</div>
+      </div>
+
+      <div class="list-row-border-b">
+        <div>{{ $t("TokenName") }}</div>
+        <div>{{ transaction.tokenData.transactionDetails.name }}</div>
+      </div>
+
+      <div class="list-row-border-b">
+        <div>{{ $t("TokenTransactionType") }}</div>
+        <div>{{ transaction.tokenData.transactionDetails.transactionType }}</div>
+      </div>
+
+      <div class="list-row-border-b">
+        <div>{{ $t("TokenTransactionIsValid") }}</div>
+        <div>{{ capitalize(transaction.tokenData.valid.toString()) }}</div>
+      </div>
+
+      <div
+        v-if="transaction.tokenData.valid == false"
+        class="list-row-border-b"
+      >
+        <div>{{ $t("TokenInvalidReason") }}</div>
+        <div>{{ transaction.tokenData.invalidReason }}</div>
+      </div>
+
+      <div
+        v-if="transaction.tokenData.transactionDetails.genesisOrMintQuantity != 0"
+        class="list-row-border-b"
+      >
+        <div>{{ $t("TokenGenMintBurnQuantity") }}</div>
+        <div>{{ readableCryptoAlt(transaction.tokenData.transactionDetails.genesisOrMintQuantity, false, transaction.tokenData.transactionDetails.decimals) }} {{ transaction.tokenData.transactionDetails.symbol }}</div>
+      </div>
+
+      <div class="list-row-border-b">
+        <div>{{ $t("TokenOutputAddress") }}</div>
+        <div>
+          <LinkWallet
+            :address="transaction.tokenData.transactionDetails.sendOutput.address"
+            :type="transaction.type"
+            :asset="transaction.asset"
+            :trunc="false"
+          />
+        </div>
+      </div>
+
+      <div class="list-row-border-b">
+        <div>{{ $t("TokenOutputAmount") }}</div>
+        <div>{{ readableCryptoAlt(transaction.tokenData.transactionDetails.sendOutput.amount, false, transaction.tokenData.transactionDetails.decimals) }} {{ transaction.tokenData.transactionDetails.symbol }}</div>
+      </div>
+      
+      <div 
+      	v-if="transaction.tokenData.transactionDetails.note && transaction.tokenData.transactionDetails.note != ''"
+      	class="list-row-border-b"
+      >
+        <div>{{ $t("Note") }}</div>
+        <div>{{ transaction.tokenData.transactionDetails.note }}</div>
+      </div>
+      
+    </div>
   </section>
 </template>
 

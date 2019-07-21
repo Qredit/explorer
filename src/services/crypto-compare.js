@@ -21,24 +21,8 @@ const requestPool = genericPool.createPool(requestFactory, {
 })
 
 class CryptoCompareService {
-  async get (url, options) {
-    const client = await requestPool.acquire()
-    const response = await client.get(url, options)
-
-    // @see https://github.com/coopernurse/node-pool/issues/206
-    try {
-      await requestPool.release(client)
-    } catch (error) {
-      if (error.message !== 'Resource not currently part of this pool') {
-        throw error
-      }
-    }
-
-    return response
-  }
-
   async price (currency) {
-    const response = await this.get(`https://min-api.cryptocompare.com/data/price?fsym=XQR&tsyms=${currency}`)
+    const response = await axios.get(`https://min-api.cryptocompare.com/data/price?fsym=XQR&tsyms=${currency}`)
     if (response.data.hasOwnProperty(currency)) {
       return Number(response.data[currency])
     }

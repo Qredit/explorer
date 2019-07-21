@@ -22,7 +22,10 @@
         />
       </div>
     </section>
-
+    <WalletTokens
+      v-if="tokens"
+      :tokens="tokens"
+    />
     <WalletTransactions
       v-if="wallet"
       :wallet="wallet"
@@ -35,20 +38,24 @@ import {
   WalletDelegate,
   WalletDetails,
   WalletTransactions,
-  WalletVoters
+  WalletVoters,
+  WalletTokens
 } from '@/components/wallet'
 import WalletService from '@/services/wallet'
+import TokenService from '@/services/token'
 
 export default {
   components: {
     WalletDelegate,
     WalletDetails,
     WalletTransactions,
-    WalletVoters
+    WalletVoters,
+    WalletTokens
   },
 
   data: () => ({
     wallet: {},
+    tokens: {},
     activeTab: 'all',
     username: ''
   }),
@@ -62,16 +69,23 @@ export default {
   async beforeRouteEnter (to, from, next) {
     try {
       const response = await WalletService.find(to.params.address)
-      next(vm => vm.setWallet(response))
+      const tokensresponse = await TokenService.getWalletTokens(to.params.address)
+      next(vm => {
+        vm.setWallet(response)
+        vm.setTokens(tokensresponse)
+      })
     } catch (e) { next({ name: '404' }) }
   },
 
   async beforeRouteUpdate (to, from, next) {
     this.wallet = {}
+    this.tokens = {}
 
     try {
       const response = await WalletService.find(to.params.address)
+      const tokensresponse = await TokenService.getWalletTokens(to.params.address)
       this.setWallet(response)
+      this.setTokens(tokensresponse)
       next()
     } catch (e) { next({ name: '404' }) }
   },
@@ -79,7 +93,11 @@ export default {
   methods: {
     async setWallet (wallet) {
       this.wallet = wallet
+    },
+    async setTokens (tokens) {
+      this.tokens = tokens
     }
+
   }
 }
 </script>
