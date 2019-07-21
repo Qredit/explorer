@@ -72,7 +72,7 @@ export default {
         return Array.isArray(value) || value === null
       },
       required: true
-    },
+    }
 
   }
 
