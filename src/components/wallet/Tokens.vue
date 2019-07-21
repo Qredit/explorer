@@ -3,7 +3,7 @@
     <h2 class="text-2xl mb-5 md:mb-6 px-5 sm:hidden text-theme-text-primary">
       {{ $t("Tokens") }}
     </h2>
-    <section class="page-section py-5 md:py-10">
+    <section class="page-section mb-5 py-5 md:py-10">
       <div class="hidden sm:block">
         <TableWalletTokensDesktop
           :tokens="tokens"
