@@ -141,7 +141,7 @@ export default {
         mode: 'index',
         intersect: false,
         // borderWidth: 1,
-        // borderColor: '#037cff',
+        // borderColor: '#b10000',
         callbacks: {
           title: tooltipItem => {
             const name = store.getters['currency/name']
@@ -172,7 +172,7 @@ export default {
           type: 'line',
           pointHoverBackgroundColor: '#fff',
           borderColor: '#535972',
-          pointHoverBorderColor: '#037cff',
+          pointHoverBorderColor: '#b10000',
           pointBackgroundColor: 'rgba(0,0,0,0)',
           pointBorderColor: 'rgba(0,0,0,0)',
           pointHoverRadius: 7,
