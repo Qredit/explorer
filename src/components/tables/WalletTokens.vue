@@ -74,10 +74,6 @@ export default {
       required: true
     },
 
-    total: {
-      type: Number,
-      required: true
-    }
   }
 
 }
