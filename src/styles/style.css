@@ -34,10 +34,14 @@
 }
 
 .theme-light footer a {
-  color: #fff;
+  color: #b10000;
 }
 .theme-light footer a:hover {
   color: #7b8291;
+}
+.theme-dark a
+{
+  color: #7b5ecc;
 }
 
 .theme-dark {
@@ -70,10 +74,10 @@
 }
 
 .theme-dark footer a {
-  color: #43475c;
+  color: #b10000;
 }
 .theme-dark footer a:hover {
-  color: #d22d3d;
+  color: #43475c;
 }
 
 @font-face {
