@@ -8,10 +8,10 @@ const MAX_REQUEST_PER_SECOND = 50
 const SECONDS_PER_DAY = 86400
 
 const requestFactory = {
-  create () {
+  create() {
     return axios
   },
-  destroy (resource) {
+  destroy(resource) {
     return Promise.resolve()
   }
 }
@@ -21,34 +21,50 @@ const requestPool = genericPool.createPool(requestFactory, {
 })
 
 class CryptoCompareService {
-  async price (currency) {
-    const response = await axios.get(`https://min-api.cryptocompare.com/data/price?fsym=XQR&tsyms=${currency}`)
+  async get(url, options) {
+    const client = await requestPool.acquire()
+    const response = await client.get(url, options)
+
+    // @see https://github.com/coopernurse/node-pool/issues/206
+    try {
+      await requestPool.release(client)
+    } catch (error) {
+      if (error.message !== 'Resource not currently part of this pool') {
+        throw error
+      }
+    }
+
+    return response
+  }
+
+  async price(currency) {
+    const response = await this.get(`https://min-api.cryptocompare.com/data/price?fsym=XQR&tsyms=${currency}`)
     if (response.data.hasOwnProperty(currency)) {
       return Number(response.data[currency])
     }
   }
 
-  async day () {
+  async day() {
     return this.sendRequest('hour', 24, 'HH:mm')
   }
 
-  async week () {
+  async week() {
     return this.sendRequest('day', 7, 'DD.MM')
   }
 
-  async month () {
+  async month() {
     return this.sendRequest('day', 30, 'DD.MM')
   }
 
-  async quarter () {
+  async quarter() {
     return this.sendRequest('day', 120, 'DD.MM')
   }
 
-  async year () {
+  async year() {
     return this.sendRequest('day', 365, 'DD.MM')
   }
 
-  async sendRequest (type, limit, dateTimeFormat) {
+  async sendRequest(type, limit, dateTimeFormat) {
     const date = Math.round(new Date().getTime() / 1000)
     const token = store.getters['network/token']
 
@@ -69,7 +85,7 @@ class CryptoCompareService {
     return this.transform(response.data.Data, dateTimeFormat)
   }
 
-  async dailyAverage (timestamp) {
+  async dailyAverage(timestamp) {
     const networkAlias = store.getters['network/alias']
     if (networkAlias !== 'Main') {
       return null
@@ -125,7 +141,7 @@ class CryptoCompareService {
     return rate
   }
 
-  transform (response, dateTimeFormat) {
+  transform(response, dateTimeFormat) {
     return {
       labels: response.map(value => {
         return moment.unix(value.time).format(dateTimeFormat)
