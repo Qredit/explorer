@@ -87,12 +87,13 @@
 }
 
 a {
-  color: #8800ff;
+  color: #582dd2;
   text-decoration: none;
+  font-size: 14px;
 }
 
 a:hover {
-  color: #1461ff;
+  color: #d22d3d;
 }
 
 .transition {
@@ -244,6 +245,7 @@ thead th {
 
 .base-cell {
   @apply .p-4 .border-none;
+  font-size: 14px;
 }
 
 .left-cell {
@@ -252,6 +254,7 @@ thead th {
 
 .left-start-cell {
   @apply .left-cell .pl-10;
+  padding-left: 1rem;
 }
 
 .right-cell {
@@ -260,6 +263,7 @@ thead th {
 
 .right-end-cell {
   @apply .right-cell .pr-10;
+  padding-right: 1rem;
 }
 
 /* Table Header Cells */
@@ -274,6 +278,7 @@ thead th {
 
 .left-header-start-cell {
   @apply .left-header-cell .pl-10;
+  padding-left: 1rem;
 }
 
 .right-header-cell {
@@ -282,6 +287,7 @@ thead th {
 
 .right-header-end-cell {
   @apply .right-header-cell .pr-10;
+  padding-right: 1rem;
 }
 
 .list-row {

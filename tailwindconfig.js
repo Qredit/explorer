@@ -271,7 +271,7 @@ module.exports = {
     '2xs': '.8125rem', // 13px
     xs: '.875rem', // 14px
     sm: '0.9375rem', // 15px
-    base: '1rem', // 16px
+    base: '.875rem', // 16px
     lg: '1.125rem', // 18px
     xl: '1.25rem', // 20px
     '2xl': '1.5rem', // 24px
@@ -295,15 +295,15 @@ module.exports = {
   */
 
   fontWeights: {
-    hairline: 100,
-    thin: 200,
-    light: 300,
-    normal: 400,
-    medium: 500,
-    semibold: 600,
-    bold: 700,
-    extrabold: 800,
-    black: 900,
+    hairline: 50,
+    thin: 150,
+    light: 250,
+    normal: 350,
+    medium: 450,
+    semibold: 550,
+    bold: 650,
+    extrabold: 750,
+    black: 850,
   },
 
   /*
