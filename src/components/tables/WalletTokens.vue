@@ -25,7 +25,13 @@
         cell-class="left-cell"
       >
         <template slot-scope="row">
-          {{ row.symbol }}
+          <LinkTokenSymbol
+            v-if="row.tokenIdHex"
+            :id="row.tokenIdHex"
+            :symbol="row.symbol"
+          >
+            {{ row.symbol }}
+          </LinkTokenSymbol>
         </template>
       </table-column>
 
@@ -36,7 +42,12 @@
         cell-class="left-cell"
       >
         <template slot-scope="row">
-          {{ row.tokenIdHex }}
+          <LinkToken
+            v-if="row.tokenIdHex"
+            :id="row.tokenIdHex"
+          >
+            {{ row.tokenIdHex }}
+          </LinkToken>
         </template>
       </table-column>
 
