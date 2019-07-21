@@ -128,12 +128,12 @@ export default {
       tooltips: {
         backgroundColor: '#272936',
         titleFontStyle: 'normal',
-        titleFontSize: 18,
+        titleFontSize: 16,
         titleFontFamily: "'Poppins Regular', sans-serif",
         titleMarginBottom: 0,
         cornerRadius: 3,
         bodyFontColor: '#838a9b',
-        bodyFontSize: 14,
+        bodyFontSize: 12,
         xPadding: 14,
         yPadding: 14,
         caretPadding: 20,
@@ -141,7 +141,7 @@ export default {
         mode: 'index',
         intersect: false,
         // borderWidth: 1,
-        // borderColor: '#037cff',
+        // borderColor: '#b10000',
         callbacks: {
           title: tooltipItem => {
             const name = store.getters['currency/name']
@@ -172,7 +172,7 @@ export default {
           type: 'line',
           pointHoverBackgroundColor: '#fff',
           borderColor: '#535972',
-          pointHoverBorderColor: '#037cff',
+          pointHoverBorderColor: '#b10000',
           pointBackgroundColor: 'rgba(0,0,0,0)',
           pointBorderColor: 'rgba(0,0,0,0)',
           pointHoverRadius: 7,

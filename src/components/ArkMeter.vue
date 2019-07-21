@@ -20,7 +20,7 @@
       :stroke-width="stroke"
       stroke-linecap="round"
       fill="none"
-      stroke="currentColor"
+      stroke="#1461ff"
     />
   </svg>
 </template>

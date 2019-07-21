@@ -28,16 +28,20 @@
   --ark-meter: #e4ece9;
   --chart-active: #395174;
   --chart-inactive: #a0a6c8;
-  --theme-button: #e0f0fd;
-  --theme-button-text: #037cff;
+  --theme-button: #dfe9fb;
+  --theme-button-text: #b10000;
   --language-icon: #395174;
 }
 
 .theme-light footer a {
-  color: #fff;
+  color: #b10000;
 }
 .theme-light footer a:hover {
   color: #7b8291;
+}
+.theme-dark a
+{
+  color: #7b5ecc;
 }
 
 .theme-dark {
@@ -70,10 +74,10 @@
 }
 
 .theme-dark footer a {
-  color: #43475c;
+  color: #b10000;
 }
 .theme-dark footer a:hover {
-  color: #d22d3d;
+  color: #43475c;
 }
 
 @font-face {
@@ -87,12 +91,13 @@
 }
 
 a {
-  color: #8800ff;
+  color: #582dd2;
   text-decoration: none;
+  font-size: 14px;
 }
 
 a:hover {
-  color: #1461ff;
+  color: #d22d3d;
 }
 
 .transition {
@@ -244,6 +249,7 @@ thead th {
 
 .base-cell {
   @apply .p-4 .border-none;
+  font-size: 14px;
 }
 
 .left-cell {
@@ -252,6 +258,7 @@ thead th {
 
 .left-start-cell {
   @apply .left-cell .pl-10;
+  padding-left: 1rem;
 }
 
 .right-cell {
@@ -260,6 +267,7 @@ thead th {
 
 .right-end-cell {
   @apply .right-cell .pr-10;
+  padding-right: 1rem;
 }
 
 /* Table Header Cells */
@@ -274,6 +282,7 @@ thead th {
 
 .left-header-start-cell {
   @apply .left-header-cell .pl-10;
+  padding-left: 1rem;
 }
 
 .right-header-cell {
@@ -282,6 +291,7 @@ thead th {
 
 .right-header-end-cell {
   @apply .right-header-cell .pr-10;
+  padding-right: 1rem;
 }
 
 .list-row {
