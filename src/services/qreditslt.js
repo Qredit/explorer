@@ -17,6 +17,20 @@ class QreditSltService {
     return response.data // .transform(response.data.Data, dateTimeFormat)
   }
 
+  async getTokens () {
+    const response = await axios
+      .get(`https://qae.altilly.com/api/tokens`)
+
+    return response.data // .transform(response.data.Data, dateTimeFormat)
+  }
+
+  async getWalletTokens (walletid) {
+    const response = await axios
+      .get(`https://qae.altilly.com/api/address/${walletid}`)
+
+    return response.data // .transform(response.data.Data, dateTimeFormat)
+  }
+
   async getTransactions (tokenid) {
     const response = await axios
       .get(`https://qae.altilly.com/api/transactions/${tokenid}`)

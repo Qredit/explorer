@@ -36,6 +36,20 @@ class TokenService {
   	const response = await QreditSltService.getTransactions(id)
   	return response
   }
+
+  async getWalletTokens (address) {
+    const response = await QreditSltService.getWalletTokens(address)
+    const tokens = await QreditSltService.getTokens()
+    response.forEach(function (item) {
+      tokens.forEach(function (token) {
+        if (token.tokenDetails.tokenIdHex === item.tokenIdHex) {
+          item.name = token.tokenDetails.name
+          item.symbol = token.tokenDetails.symbol
+        }
+      })
+    })
+  	return response
+  }
 }
 
 export default new TokenService()
