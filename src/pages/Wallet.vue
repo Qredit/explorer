@@ -25,7 +25,7 @@
     <WalletTokens
       v-if="tokens"
       :tokens="tokens"
-    />
+    /><br>
     <WalletTransactions
       v-if="wallet"
       :wallet="wallet"

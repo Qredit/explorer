@@ -129,7 +129,7 @@ export default {
         backgroundColor: '#272936',
         titleFontStyle: 'normal',
         titleFontSize: 18,
-        titleFontFamily: "'Proxima Nova Regular', sans-serif",
+        titleFontFamily: "'Poppins Regular', sans-serif",
         titleMarginBottom: 0,
         cornerRadius: 3,
         bodyFontColor: '#838a9b',

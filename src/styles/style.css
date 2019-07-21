@@ -77,13 +77,13 @@
 }
 
 @font-face {
-  font-family: 'Proxima Nova Regular';
-  src: url('../assets/fonts/Proxima_Nova_Regular.otf');
+  font-family: 'Poppins Regular';
+  src: url('../assets/fonts/Poppins-Regular.ttf');
 }
 
 @font-face {
-  font-family: 'Proxima Nova Semibold';
-  src: url('../assets/fonts/Proxima_Nova_Semibold.otf');
+  font-family: 'Poppins Semibold';
+  src: url('../assets/fonts/Poppins-SemiBold.ttf');
 }
 
 a {
@@ -118,7 +118,7 @@ button:disabled {
 }
 
 .semibold {
-  font-family: 'Proxima Nova Semibold';
+  font-family: 'Poppins Semibold';
 }
 
 .hover-button-shadow-definition {

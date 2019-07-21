@@ -213,7 +213,7 @@ module.exports = {
 
   fonts: {
     sans: [
-      'Proxima Nova Regular',
+      'Poppins Regular',
       '-apple-system',
       'BlinkMacSystemFont',
       'Segoe UI',
