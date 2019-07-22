@@ -140,5 +140,36 @@
   "Multipayment": "Multipayment",
   "Delegate Resignation": "Delegate Resignation",
   "Second Signature": "Second Signature",
-  "Transfer": "Transfer"
+  "Transfer": "Transfer",
+
+  "TokenDetails": "QAE Token Details",
+  "TokenId": "Token ID",
+  "TokenSymbol": "Token Symbol",
+  "TokenName": "Token Name",
+  "TokenTransactionType": "Transaction Method",
+  "TokenTransactionIsValid": "Transaction Valid",
+  "TokenOutputAddress": "Output Address",
+  "TokenOutputAmount": "Output Amount",
+  "TokenGenMintBurnQuantity": "Genisis/Mint/Burn Qty",
+  "TokenInvalidReason": "Invalid Reason",
+  
+  "TokenType": "Token Type",
+  "TokenPaused": "Is Paused",
+  "TokenOwner": "Owner Address",
+  "TokenGenesisTime": "Genesis Timestamp",
+  "TokenDocumentUri": "Document URI",
+  "TokenDecimals": "Decimal Places",
+  "TokenGenesisQty": "Genesis Quantity",
+  
+  "Statistics": "Statistics",
+  "TokenBlockCreated": "Created at Block ID",
+  "TokenBlockHeightCreated": "Created at Block Height",
+  "TokenBlockHeightLastUpdate": "Block Height Last Update",
+  "TokenBlockLastActiveSend": "Block Height Last Send",
+  "TokenBlockLastActiveMint": "Block Height Last Mint",
+  "TokenValidTxnsSinceGenesis": "Total Valid Transactions",
+  "TokenValidTokenAddresses": "Total Valid Addresses",
+  "TokenQtyMinted": "Total Minted",
+  "TokenQtyBurned": "Total Burned",
+  "TokenQtyCirculatingSupply": "Total Circulating Supply"
 }
