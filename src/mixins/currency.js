@@ -18,6 +18,21 @@ export default {
       }
     },
 
+    // QAEADD
+    readableCryptoAlt (value, appendCurrency = true, decimals = 8) {
+      if (typeof value !== 'undefined') {
+        value = (value /= eval('1e' + decimals)).toLocaleString(locale, {
+          maximumFractionDigits: decimals
+        })
+
+        return appendCurrency ? `${value} ${
+          store.getters['network/symbol'] ||
+            store.getters['network/defaults'].symbol ||
+            ''
+        }` : value
+      }
+    },
+
     readableCurrency (value, rate = null, currency = null, normalise = true) {
       const currencyName = currency || store.getters['currency/name']
 

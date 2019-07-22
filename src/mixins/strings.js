@@ -45,8 +45,19 @@ export default {
       return '-'
     },
 
+    // QAEEDIT
     emojify (text) {
-      return emoji.emojify(text)
+      var isjson = 0
+      try {
+        var jsondata = JSON.parse(text)
+        isjson = 1
+      } catch (e) {
+      }
+      if (isjson == 1 && jsondata.qae1) {
+        return 'QAE-1'
+      } else {
+        return emoji.emojify(text)
+      }
     }
   }
 }
