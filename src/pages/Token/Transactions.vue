@@ -3,10 +3,16 @@
     <ContentHeader>{{ $t("Transactions") }}</ContentHeader>
     <section class="page-section py-5 md:py-10">
       <div class="hidden sm:block">
-        <TableTransactionsDesktop :transactions="transactions" />
+        <TableTransactionsDesktop
+          :transactions="transactions"
+          :token="token"
+        />
       </div>
       <div class="sm:hidden">
-        <TableTransactionsMobile :transactions="transactions" />
+        <TableTransactionsMobile
+          :transactions="transactions"
+          :token="token"
+        />
       </div>
       <Paginator
         v-if="showPaginator"
@@ -23,12 +29,17 @@
 import TransactionService from '@/services/transaction'
 
 export default {
+  props: {
+    token: {
+      type: Object,
+      required: true
+    }
+  },
   data: () => ({
     transactions: null,
     meta: null,
     currentPage: 0
   }),
-
   computed: {
     showPaginator () {
       return this.meta && (this.meta.previous || this.meta.next)

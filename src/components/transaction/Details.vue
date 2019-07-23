@@ -100,6 +100,8 @@
       </div>
     </div>
 
+    <!-- QAEADD -->
+
     <div
       v-if="transaction.tokenData"
       class="px-5 sm:px-10"
@@ -123,7 +125,15 @@
 
       <div class="list-row-border-b">
         <div>{{ $t("TokenSymbol") }}</div>
-        <div>{{ transaction.tokenData.transactionDetails.symbol }}</div>
+        <div>
+          <LinkTokenSymbol
+            v-if="transaction.tokenData.transactionDetails.tokenIdHex"
+            :id="transaction.tokenData.transactionDetails.tokenIdHex"
+            :symbol="transaction.tokenData.transactionDetails.symbol"
+          >
+            {{ transaction.tokenData.transactionDetails.symbol }}
+          </LinkTokenSymbol>
+        </div>
       </div>
 
       <div class="list-row-border-b">
@@ -173,15 +183,14 @@
         <div>{{ $t("TokenOutputAmount") }}</div>
         <div>{{ readableCryptoAlt(transaction.tokenData.transactionDetails.sendOutput.amount, false, transaction.tokenData.transactionDetails.decimals) }} {{ transaction.tokenData.transactionDetails.symbol }}</div>
       </div>
-      
-      <div 
-      	v-if="transaction.tokenData.transactionDetails.note && transaction.tokenData.transactionDetails.note != ''"
-      	class="list-row-border-b"
+
+      <div
+        v-if="transaction.tokenData.transactionDetails.note && transaction.tokenData.transactionDetails.note != ''"
+        class="list-row-border-b"
       >
         <div>{{ $t("Note") }}</div>
         <div>{{ transaction.tokenData.transactionDetails.note }}</div>
       </div>
-      
     </div>
   </section>
 </template>

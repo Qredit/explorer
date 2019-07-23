@@ -10,11 +10,12 @@ const blockPropertyArray = [
   'payload',
   'generator',
   'signature',
+  'confirmations',
   'transactions',
   'timestamp'
 ].sort()
 
-describe('Block Service', () => {
+describe('Services > Block', () => {
   beforeAll(() => {
     store.dispatch('network/setServer', 'https://explorer.ark.io/api/v2')
   })

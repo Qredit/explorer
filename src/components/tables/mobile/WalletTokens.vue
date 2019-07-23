@@ -1,58 +1,36 @@
 <template>
   <Loader :data="tokens">
-    <table-component
-      v-if="tokens && tokens.length > 0"
-      :data="tokens"
-      :show-filter="false"
-      :show-caption="false"
-      table-class="w-full"
+    <TableWrapper
+      v-bind="$attrs"
+      :has-pagination="false"
+      :columns="columns"
+      :rows="tokens"
+      :sort-query="{ field: 'symbol', type: 'asc' }"
+      :no-data-message="$t('No results')"
     >
-      <table-column
-        show="tokenName"
-        :label="$t('Token Name')"
-        header-class="left-header-cell"
-        cell-class="left-cell"
+      <template
+        slot-scope="data"
       >
-        <template slot-scope="row">
-          {{ row.name }}
-        </template>
-      </table-column>
+        <div v-if="data.column.field === 'name'">
+          {{ data.row.name }}
+        </div>
 
-      <table-column
-        show="tokenSymbol"
-        :label="$t('Token Symbol')"
-        header-class="left-header-cell"
-        cell-class="left-cell"
-      >
-        <template slot-scope="row">
+        <div v-else-if="data.column.field === 'symbol'">
           <LinkTokenSymbol
-            v-if="row.tokenIdHex"
-            :id="row.tokenIdHex"
-            :symbol="row.symbol"
+            v-if="data.row.tokenIdHex"
+            :id="data.row.tokenIdHex"
+            :symbol="data.row.symbol"
           >
-            {{ row.symbol }}
+            {{ data.row.symbol }}
           </LinkTokenSymbol>
-        </template>
-      </table-column>
-
-      <table-column
-        show="tokenBalance"
-        :label="$t('Token Balance')"
-        header-class="right-header-cell"
-        cell-class="right-cell"
-      >
-        <template slot-scope="row">
-          {{ readableCryptoAlt(row.tokenBalance, false, row.tokenDecimals) }}
-        </template>
-      </table-column>
-    </table-component>
-
-    <div
-      v-else
-      class="px-5 md:px-10"
-    >
-      <span>{{ $t("No results") }}</span>
-    </div>
+        </div>
+        <div v-else-if="data.column.field === 'balance'">
+          <span>
+            {{ readableCryptoAlt(data.row.tokenBalance, false, data.row.tokenDecimals) }}
+          </span>
+        </div>
+      </template>
+    </TableWrapper>
   </Loader>
 </template>
 
@@ -69,6 +47,47 @@ export default {
       required: true
     }
 
+  },
+
+  data: () => ({
+    windowWidth: 0
+  }),
+
+  computed: {
+
+    columns () {
+      const columns = [
+        {
+          label: this.$t('Token Name'),
+          field: 'name',
+          thClass: 'start-cell',
+          tdClass: 'start-cell'
+        },
+        {
+          label: this.$t('Token Symbol'),
+          field: 'symbol'
+        },
+        {
+          label: this.$t('Balance'),
+          field: 'balance',
+          type: 'number',
+          thClass: 'end-cell',
+          tdClass: 'whitespace-no-wrap end-cell'
+        }
+      ]
+
+      return columns
+    }
+  },
+
+  mounted () {
+    this.windowWidth = window.innerWidth
+
+    this.$nextTick(() => {
+      window.addEventListener('resize', () => {
+        this.windowWidth = window.innerWidth
+      })
+    })
   }
 
 }
