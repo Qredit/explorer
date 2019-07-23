@@ -30,6 +30,7 @@
         </div>
         <div v-else-if="data.column.field === 'amount'">
           {{ readableCryptoAlt(data.row.transactionDetails.sendOutput.amount, false, data.row.transactionDetails.decimals) }}
+          {{ data.row.transactionDetails.symbol }}
         </div>
         <div v-else-if="data.column.field === 'fee'">
           {{ readableCrypto(data.row.transactionDetails.fee_xqr) }}
