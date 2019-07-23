@@ -9,57 +9,39 @@
         <div class="list-row-border-b">
           <div>{{ $t("ID") }}</div>
           <LinkTransaction
-            :id="transaction.id"
+            :id="transaction.txid"
             :smart-bridge="transaction.vendorField"
           />
         </div>
 
         <div class="list-row-border-b">
           <div>{{ $t("Timestamp") }}</div>
-          <div v-if="transaction.timestamp">
-            {{ readableTimestamp(transaction.timestamp.unix) }}
+          <div v-if="transaction.transactionDetails.timestamp">
+            {{ readableTimestamp(transaction.transactionDetails.timestamp_unix) }}
           </div>
         </div>
 
         <div class="list-row-border-b">
           <div>{{ $t("Sender") }}</div>
-          <LinkWallet :address="transaction.sender" />
+          <LinkWallet :address="transaction.transactionDetails.senderAddress" />
         </div>
 
         <div class="list-row-border-b">
           <div>{{ $t("Recipient") }}</div>
-          <LinkWallet
-            :address="transaction.recipient"
-            :type="transaction.type"
-            :asset="transaction.asset"
-          />
-        </div>
-
-        <div
-          v-if="truncate(transaction.vendorField || '')"
-          class="list-row-border-b-no-wrap"
-        >
-          <div class="mr-4">
-            {{ $t("Smartbridge") }}
-          </div>
-          <div class="text-right truncate">
-            {{ emojify(transaction.vendorField) }}
-          </div>
+          <LinkWallet :address="transaction.transactionDetails.sendOutput.address" />
         </div>
 
         <div class="list-row-border-b">
-          <div>{{ $t("Amount (token)", { token: networkToken() }) }}</div>
+          <div>{{ $t("Amount") }}</div>
           <div>
-            <TransactionAmount
-              :transaction="transaction"
-              :type="transaction.type"
-            />
+            {{ readableCryptoAlt(transaction.transactionDetails.sendOutput.amount, false, transaction.transactionDetails.decimals) }}
+            {{ transaction.transactionDetails.symbol }}
           </div>
         </div>
 
         <div class="list-row">
-          <div>{{ $t("Fee (token)", { token: networkToken() }) }}</div>
-          <div>{{ readableCrypto(transaction.fee) }}</div>
+          <div>{{ $t("Fee") }}</div>
+          <div>{{ readableCrypto(transaction.transactionDetails.fee_xqr) }}</div>
         </div>
       </div>
       <div

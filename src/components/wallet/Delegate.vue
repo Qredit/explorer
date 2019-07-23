@@ -7,7 +7,14 @@
 
     <div class="list-row-border-b">
       <div>{{ $t("Rank/Status") }}</div>
-      <div>{{ delegate.rank }}</div>
+      <div>
+        <span v-if="delegate.rank === undefined">
+          {{ $t('Not yet available') }}
+        </span>
+        <span v-else>
+          {{ delegate.rank }}
+        </span>
+      </div>
     </div>
 
     <div class="list-row-border-b">
@@ -40,7 +47,7 @@
       <div>{{ $t("Blocks") }}</div>
       <div v-if="delegate.blocks">
         <span>
-          {{ delegate.blocks.produced }}
+          {{ readableNumber(delegate.blocks.produced, 0) }}
         </span>
         <RouterLink
           v-if="delegate.blocks.produced"

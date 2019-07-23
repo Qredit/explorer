@@ -22,6 +22,7 @@
         />
       </div>
     </section>
+    <!-- QAEEDIT -->
     <WalletTokens
       v-if="tokens"
       :tokens="tokens"
@@ -39,9 +40,13 @@ import {
   WalletDetails,
   WalletTransactions,
   WalletVoters,
+  // QAEEDIT
   WalletTokens
 } from '@/components/wallet'
 import WalletService from '@/services/wallet'
+import TokenService from '@/services/token'
+
+// QAEEDIT
 import TokenService from '@/services/token'
 
 export default {
@@ -50,6 +55,7 @@ export default {
     WalletDetails,
     WalletTransactions,
     WalletVoters,
+    // QAEEDIT
     WalletTokens
   },
 
@@ -66,6 +72,7 @@ export default {
     }
   },
 
+  // QAEEDIT
   async beforeRouteEnter (to, from, next) {
     try {
       const response = await WalletService.find(to.params.address)
@@ -99,5 +106,6 @@ export default {
     }
 
   }
+  // /QAEEDIT
 }
 </script>

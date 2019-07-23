@@ -8,12 +8,11 @@ import router from './router'
 import store from './store'
 import i18n from './i18n'
 import directives from './directives'
+import mixins from './mixins'
 import VTooltip from 'v-tooltip'
-import TableComponent from 'vue-table-component'
-import { orderBy } from 'lodash'
+import VueGoodTablePlugin from 'vue-good-table'
 
 require('./components')
-require('./mixins')
 
 sync(store, router)
 
@@ -24,10 +23,9 @@ Vue.use(VTooltip, {
   defaultHtml: false,
   defaultContainer: 'main'
 })
-Vue.use(TableComponent, {
-  sortHandler: (rows, column, order) => orderBy(rows, `data.${column}`, order),
-  filterNoResults: i18n.t('No results')
-})
+Vue.use(VueGoodTablePlugin)
+
+Vue.mixin(mixins)
 
 /* eslint-disable no-new */
 new Vue({

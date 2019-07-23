@@ -1,4 +1,5 @@
 import ApiService from '@/services/api'
+// QAEADD
 import QreditSltService from '@/services/qreditslt'
 
 class TransactionService {
@@ -16,6 +17,7 @@ class TransactionService {
   async find (id) {
     const response = await ApiService.get(`transactions/${id}`)
 
+    // QAEADD
     try {
     	var vendorJson = JSON.parse(response.data.vendorField)
 
@@ -32,6 +34,7 @@ class TransactionService {
 
   async filterByType (page, type, limit = 25) {
     const params = {
+      orderBy: 'timestamp:desc',
       page,
       limit
     }
@@ -50,6 +53,7 @@ class TransactionService {
   async byBlock (id, page = 1, limit = 25) {
     const response = await ApiService.get(`blocks/${id}/transactions`, {
       params: {
+        orderBy: 'timestamp:desc',
         page,
         limit
       }
@@ -61,6 +65,7 @@ class TransactionService {
   async allByAddress (address, page = 1, limit = 25) {
     const response = await ApiService.get(`wallets/${address}/transactions`, {
       params: {
+        orderBy: 'timestamp:desc',
         page,
         limit
       }
@@ -72,6 +77,7 @@ class TransactionService {
   async sentByAddress (address, page = 1, limit = 25) {
     const response = await ApiService.get(`wallets/${address}/transactions/sent`, {
       params: {
+        orderBy: 'timestamp:desc',
         page,
         limit
       }
@@ -83,6 +89,7 @@ class TransactionService {
   async receivedByAddress (address, page = 1, limit = 25) {
     const response = await ApiService.get(`wallets/${address}/transactions/received`, {
       params: {
+        orderBy: 'timestamp:desc',
         page,
         limit
       }

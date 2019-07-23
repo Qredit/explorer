@@ -1,6 +1,6 @@
 <template>
   <div v-if="transactions && transactions.length > 0">
-    <h2 class="text-2xl mb-5 md:mb-6 px-5 sm:hidden text-theme-text-primary">
+    <h2 class="text-2xl mb-5 md:mb-6 px-5 text-theme-text-primary">
       {{ $t("Transactions") }}
     </h2>
     <section class="page-section py-5 md:py-10">
