@@ -141,15 +141,15 @@ export default {
           label: this.$t('Amount (token)', { token: this.networkToken() }),
           field: 'amount',
           type: 'number',
-          thClass: 'end-cell lg:base-cell lg:pr-4',
-          tdClass: 'end-cell lg:base-cell lg:pr-4'
+          thClass: 'lg:base-cell lg:pr-4',
+          tdClass: 'lg:base-cell lg:pr-4'
         },
         {
           label: this.$t('Fee (token)', { token: this.networkToken() }),
           field: 'fee',
           type: 'number',
-          thClass: 'end-cell hidden lg:table-cell',
-          tdClass: 'end-cell hidden lg:table-cell'
+          thClass: 'end-cell lg:table-cell',
+          tdClass: 'end-cell lg:table-cell'
         }
       ]
 
