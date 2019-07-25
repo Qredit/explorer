@@ -69,8 +69,8 @@ export default {
           maximumFractionDigits: 8
         })
         : value.toLocaleString(locale, {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2
+          minimumFractionDigits: 5,
+          maximumFractionDigits: 5
         })
     }
   }
