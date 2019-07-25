@@ -102,7 +102,7 @@ export default {
                   return store.getters['currency/symbol'] + value.toFixed(8)
                 }
 
-                return store.getters['currency/symbol'] + value.toFixed(2)
+                return store.getters['currency/symbol'] + value.toFixed(5)
               },
               fontColor: '#838a9b',
               fontSize: 13
@@ -151,7 +151,7 @@ export default {
               return `${name} ${Number(tooltipItem[0].yLabel).toFixed(8)}`
             }
 
-            return `${name} ${Number(tooltipItem[0].yLabel).toFixed(2)}`
+            return `${name} ${Number(tooltipItem[0].yLabel).toFixed(5)}`
           },
           label: tooltipItem => ''
           // label: tooltipItem => `BTC ${tooltipItem.yLabel}`
