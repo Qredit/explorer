@@ -176,7 +176,7 @@ th, td {
 
 @media only screen and (min-width: 1280px) {
   .cell-smartbridge-truncate {
-    max-width: 180px;
+    max-width: 140px;
   }
 }
 

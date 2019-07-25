@@ -57,7 +57,9 @@ export default {
         })} ${cryptos[currencyName]}`
         : value.toLocaleString(locale, {
           style: 'currency',
-          currency: currencyName
+          currency: currencyName,
+          maximumFractionDigits: 3,
+          minimumFractionDigits: 3
         })
     },
 
