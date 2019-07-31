@@ -20,14 +20,12 @@ Vue.component('LinkTokenSymbol', require('@/components/links/LinkTokenSymbol').d
 // Tables
 Vue.component('TableBlocksDesktop', require('@/components/tables/Blocks').default)
 Vue.component('TableTransactionsDesktop', require('@/components/tables/Transactions').default)
-Vue.component('TableTransactionsDetailDesktop', require('@/components/tables/TransactionsDetail').default)
 Vue.component('TableWalletsDesktop', require('@/components/tables/Wallets').default)
 Vue.component('TableTokenTransactionsDesktop', require('@/components/tables/TokenTransactions').default)
 Vue.component('TableWalletTokensDesktop', require('@/components/tables/WalletTokens').default)
 
 Vue.component('TableBlocksMobile', require('@/components/tables/mobile/Blocks').default)
 Vue.component('TableTransactionsMobile', require('@/components/tables/mobile/Transactions').default)
-Vue.component('TableTransactionsDetailMobile', require('@/components/tables/mobile/TransactionsDetail').default)
 Vue.component('TableWalletsMobile', require('@/components/tables/mobile/Wallets').default)
 Vue.component('TableTokenTransactionsMobile', require('@/components/tables/mobile/TokenTransactions').default)
 Vue.component('TableWalletTokensMobile', require('@/components/tables/mobile/WalletTokens').default)
