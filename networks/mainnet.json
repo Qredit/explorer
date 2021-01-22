@@ -1,7 +1,7 @@
 {
   "QAEFILE": "",
   "title": "Qredit Explorer",
-  "server": "https://qredit.cloud/api/v2",
+  "server": "http://qredit.explorer.sh/api/v2",
   "alias": "Main",
   "activeDelegates": 51,
   "rewardOffset": 1525519,
@@ -23,15 +23,7 @@
     "USD": "$"
   },
   "knownWallets": {
-    "QMRhJyc1GDavB8RStdkPpaEbjrziYxgdsv": "Qredit QRT Swap ",
-    "QXcPMXiHx2cZ8RGmFCu8yUCWFMxMiLGv1H": "Qredit Shield",
-    "QPhFPEEXwZAT7WZSmFttDo3oCjeQufuke3": "Qredit Genesis",
-    "Qj92qkBDhfRJovpZhSgkb1ezCU3tcYw4Bk": "Qredit Team",
-    "QjmG1PUnCh1ip9tZnt24FAQv9eXnsERsYk": "Altilly Exchange",
-    "QPvMimKEBHU1Vd3HoQ9ufgTrytyCvwqM8U": "TradeSatoshi",
-    "QddvameMEfjD2Lo1oMTFY4LB4meFDtrDFk": "Bitexlive",
-    "QhxSCMqgjwF8kbhixumB8eQzXo9bmPkUCc": "STEX", 
-    "QjcCENDE2aXWboxb24dziQisMPUNTjfZCE": "Atomars"
+    "XVii6xY3Tu3iGqZGNE3MyjxBoDrTnhdu6G": "Genesis"
   },
   "defaults": {
     "token": "XQR",
