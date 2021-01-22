@@ -1,7 +1,7 @@
 {
   "QAEFILE": "",
   "title": "Qredit Explorer",
-  "server": "http://qredit.seednode.sh/api/v2",
+  "server": "http://qredit.seednode.sh:5103/api/v2",
   "alias": "Main",
   "activeDelegates": 51,
   "rewardOffset": 1525519,
