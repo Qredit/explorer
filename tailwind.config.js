@@ -83,6 +83,7 @@ module.exports = {
       'theme-text-thead': 'var(--color-theme-text-thead)',
       // END CUSTOM ADDED
 
+      logocolor: '#0c0c20',
       black: '#172130',
 
       'grey-darkest': '#395174', // UPDATED

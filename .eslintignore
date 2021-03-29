@@ -3,3 +3,4 @@
 /dist/
 /*.js
 /__tests__/unit/coverage/
+tailwind.config.js

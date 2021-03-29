@@ -27,15 +27,6 @@
         {{ $t("Delegate Monitor") }}
       </RouterLink>
     </li>
-    <!-- <li :class="[nightMode ? 'hover:bg-grey-dark' : 'hover:bg-grey-light', 'flex justify-center']">
-      <RouterLink :to="{ name: 'statistics' }" tag="div" class="cursor-pointer py-5 w-64 flex-none border-b border-theme-nav-border">Statistics</RouterLink>
-    </li> -->
-    <!-- <li :class="[nightMode ? 'hover:bg-grey-dark' : 'hover:bg-grey-light', 'flex justify-center']">
-      <div class="py-5 w-64 flex-none">
-        <span class="mr-2">Snapshots</span>
-        <img src="@/assets/images/icons/download.svg" />
-      </div>
-    </li> -->
   </ul>
 </template>
 

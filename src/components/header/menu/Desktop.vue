@@ -47,14 +47,14 @@
       {{ $t("Delegate Monitor") }}
     </RouterLink>
 
-    <!-- <RouterLink :to="{ name: 'statistics' }" tag="button" class="menu-button">Statistics</RouterLink> -->
+    <a
+      href="http://explorer2.qredit.io"
+      class="menu-button"
+    >
+      <span class="mr-2">Old Explorer</span>
+    </a>
 
     <div class="flex-auto" />
-
-    <!-- <a href="#" class="menu-button">
-      <span class="mr-2">Snapshots</span>
-      <img src="@/assets/images/icons/download.svg" />
-    </a> -->
   </div>
 </template>
 

@@ -25,7 +25,7 @@
       :class="{ 'blur': hasError }"
     >
       <div class="flex justify-between items-center px-10 py-8">
-        <h2 class="text-white m-0 text-xl font-normal">
+        <h2 class="m-0 text-xl font-normal">
           {{ $t("Price in") }} {{ currencyName }}
         </h2>
         <div>

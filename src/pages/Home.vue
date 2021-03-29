@@ -1,7 +1,7 @@
 <template>
   <div class="max-w-2xl mx-auto md:pt-5">
     <ContentHeader>{{ $t("Latest transactions and blocks") }}</ContentHeader>
-
+    <div class="hr-gradient" />
     <section
       v-if="priceChart"
       class="hidden md:block mb-5 bg-theme-feature-background xl:rounded-lg"

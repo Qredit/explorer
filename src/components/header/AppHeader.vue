@@ -5,7 +5,7 @@
   >
     <RouterLink
       :to="{ name: 'home' }"
-      class="logo-container w-50px md:w-80px h-50px md:h-80px flex-none bg-red text-2xl xl:rounded-l-md flex justify-center items-center"
+      class="logo-container w-50px md:w-80px h-50px md:h-80px flex-none bg-logocolor text-2xl xl:rounded-l-md flex justify-center items-center"
     >
       <!-- QAEEDIT -->
       <img
