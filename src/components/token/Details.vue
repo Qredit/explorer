@@ -16,10 +16,7 @@
       <div class="list-row-border-b">
         <div>{{ $t("TokenOwner") }}</div>
         <div>
-          <LinkWallet
-            :address="token.ownerAddress"
-            :trunc="false"
-          />
+          <LinkWallet :address="token.ownerAddress" :trunc="false" />
         </div>
       </div>
 
@@ -61,24 +58,24 @@
       <div class="list-row">
         <div>{{ $t("TokenGenesisQty") }}</div>
         <div>
-          {{ readableCryptoAlt(token.genesisQuantity, false, token.decimals) }} {{ token.symbol }}
+          {{ readableCryptoAlt(token.genesisQuantity, false, token.decimals) }}
+          {{ token.symbol }}
         </div>
       </div>
     </div>
 
     <div class="px-5 sm:px-10">
       <div class="list-row-border-b">
-        <div><strong>{{ $t("Statistics") }}</strong></div>
+        <div>
+          <strong>{{ $t("Statistics") }}</strong>
+        </div>
         <div />
       </div>
 
       <div class="list-row-border-b">
         <div>{{ $t("TokenBlockCreated") }}</div>
         <div>
-          <LinkBlock
-            v-if="token.block_created_id"
-            :id="token.block_created_id"
-          >
+          <LinkBlock v-if="token.block_created_id" :id="token.block_created_id">
             {{ token.block_created_id }}
           </LinkBlock>
         </div>
@@ -122,19 +119,32 @@
       <div class="list-row-border-b">
         <div>{{ $t("TokenQtyMinted") }}</div>
         <div>
-          {{ readableCryptoAlt(token.qty_token_minted, false, token.decimals) }} {{ token.symbol }}
+          {{
+            readableCryptoAlt(token.qty_token_minted, false, token.decimals)
+          }}
+          {{ token.symbol }}
         </div>
       </div>
       <div class="list-row-border-b">
         <div>{{ $t("TokenQtyBurned") }}</div>
         <div>
-          {{ readableCryptoAlt(token.qty_token_burned, false, token.decimals) }} {{ token.symbol }}
+          {{
+            readableCryptoAlt(token.qty_token_burned, false, token.decimals)
+          }}
+          {{ token.symbol }}
         </div>
       </div>
       <div class="list-row">
         <div>{{ $t("TokenQtyCirculatingSupply") }}</div>
         <div>
-          {{ readableCryptoAlt(token.qty_token_circulating_supply, false, token.decimals) }} {{ token.symbol }}
+          {{
+            readableCryptoAlt(
+              token.qty_token_circulating_supply,
+              false,
+              token.decimals
+            )
+          }}
+          {{ token.symbol }}
         </div>
       </div>
     </div>
@@ -142,21 +152,21 @@
 </template>
 
 <script type="text/ecmascript-6">
-import CryptoCompareService from '@/services/crypto-compare'
-import { mapGetters } from 'vuex'
+import CryptoCompareService from "@/services/crypto-compare";
+import { mapGetters } from "vuex";
 
 export default {
-  name: 'TokenDetails',
+  name: "TokenDetails",
 
   props: {
     token: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   data: () => ({
-    price: 0
-  })
+    price: 0,
+  }),
 
   /*
   computed: {
@@ -189,6 +199,5 @@ export default {
   }
 
 */
-
-}
+};
 </script>
