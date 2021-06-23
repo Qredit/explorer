@@ -2,7 +2,7 @@
 import QreditSltService from '@/services/qreditslt'
 
 class TokenService {
-  async find (id) {
+  async find(id) {
     const response = await QreditSltService.getToken(id)
 
     var newresponse = response[0]
@@ -32,12 +32,12 @@ class TokenService {
     return newresponse
   }
 
-  async getTransactions (id) {
-  	const response = await QreditSltService.getTransactions(id)
-  	return response
+  async getTransactions(id) {
+    const response = await QreditSltService.getTransactions(id)
+    return response
   }
 
-  async getWalletTokens (address) {
+  async getWalletTokens(address) {
     const response = await QreditSltService.getWalletTokens(address)
     const tokens = await QreditSltService.getTokens()
     response.forEach(function (item) {
@@ -48,7 +48,7 @@ class TokenService {
         }
       })
     })
-  	return response
+    return response
   }
 }
 

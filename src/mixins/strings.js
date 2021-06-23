@@ -54,7 +54,7 @@ export default {
       } catch (e) {
       }
       if (isjson == 1 && jsondata.qslp1) {
-        return 'QSLP-1'
+        return 'QSLP-1 Transaction'
       } else {
         return emoji.emojify(text)
       }

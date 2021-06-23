@@ -1,14 +1,14 @@
 {
-  "name": "ark-explorer",
+  "name": "qredit-explorer",
   "version": "3.0.0",
-  "description": "A Blockchain Explorer for ARK using Vue.js and Tailwind CSS",
+  "description": "A Blockchain Explorer for Qredit using Vue.js and Tailwind CSS",
   "author": "Brian Faust",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/arkecosystem/explorer.git"
+    "url": "git+https://github.com/qredit/explorer.git"
   },
   "bugs": {
-    "url": "https://github.com/arkecosystem/explorer/issues"
+    "url": "https://github.com/qredit/explorer/issues"
   },
   "license": "MIT",
   "scripts": {
@@ -133,10 +133,5 @@
     "> 1%",
     "last 2 versions",
     "not ie <= 8"
-  ],
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  }
+  ]
 }
