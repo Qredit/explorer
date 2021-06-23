@@ -7,7 +7,7 @@ export default {
   TokenTransactionIsValid: "Transaction Valid",
   TokenOutputAddress: "Output Address",
   TokenOutputAmount: "Output Amount",
-  TokenGenMintBurnQuantity: "Genisis/Mint/Burn Qty",
+  TokenGenMintBurnQuantity: "Genesis/Mint/Burn Qty",
   TokenInvalidReason: "Invalid Reason",
   TokenType: "Token Type",
   TokenPaused: "Is Paused",
