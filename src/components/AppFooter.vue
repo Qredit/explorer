@@ -1,184 +1,64 @@
 <template>
   <footer class="AppFooter px-5 md:px-10 flex-col lg:flex-row">
     <div class="mb-4 lg:mb-0 text-center md:text-left">
-      <span class="block md:inline-block mb-4 md:mb-0 text-center">&copy; <a
-        href="https://qredit.io"
-        target="_blank"
-      >Qredit.io</a> | {{ year }}. {{ $t("All rights reserved") }}</span> <div class="block md:inline-block">
-        <span class="hidden md:inline-block"> | </span> <span>{{ $t("Version") }}: <a
-          :href="versionLink"
-          target="_blank"
-        >{{ version }}</a> | {{ $t("Date") }}: {{ date }}</span>
+      <span class="block md:inline-block mb-4 md:mb-0 text-center"
+        >&copy; <a :href="brandData.footer.url" target="_blank">{{ brandData.footer.text }}</a> | {{ year }}.
+        {{ $t("FOOTER.ALL_RIGHTS_RESERVED") }}</span
+      >
+      <div class="block md:inline-block">
+        <span class="hidden md:inline-block px-1">|</span>
+        <span
+          >{{ $t("FOOTER.VERSION") }}: <a :href="versionLink" target="_blank">{{ version }}</a> |
+          {{ $t("FOOTER.DATE") }}: {{ date }}</span
+        >
       </div>
     </div>
     <div class="text-center">
-      <a
-        href="https://www.facebook.com/qredit.io/"
-        target="_blank"
-      >
-        <svg
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-          xmlns:xlink="http://www.w3.org/1999/xlink"
-          width="16px"
-          height="16px"
-          class="m-2"
-        >
-          <path
-            fill-rule="evenodd"
-            fill="currentColor"
-            d="M22.676 0H1.324C.593 0 0 .593 0 1.324v21.352C0 23.408.593 24 1.324 24h11.494v-9.294H9.689v-3.621h3.129V8.41c0-3.099 1.894-4.785 4.659-4.785 1.325 0 2.464.097 2.796.141v3.24h-1.921c-1.5 0-1.792.721-1.792 1.771v2.311h3.584l-.465 3.63H16.56V24h6.115c.733 0 1.325-.592 1.325-1.324V1.324C24 .593 23.408 0 22.676 0"
-          />
-        </svg>
-      </a>
-
-      <a
-        href="https://twitter.com/Qredit_io"
-        target="_blank"
-      >
-        <svg
-          viewBox="0 0 24 24"
-          class="m-2"
-          xmlns="http://www.w3.org/2000/svg"
-          xmlns:xlink="http://www.w3.org/1999/xlink"
-          width="16px"
-          height="16px"
-        >
-          <path
-            fill-rule="evenodd"
-            fill="currentColor"
-            d="M23.954 4.569c-.885.389-1.83.654-2.825.775 1.014-.611 1.794-1.574 2.163-2.723-.951.555-2.005.959-3.127 1.184-.896-.959-2.173-1.559-3.591-1.559-2.717 0-4.92 2.203-4.92 4.917 0 .39.045.765.127 1.124C7.691 8.094 4.066 6.13 1.64 3.161c-.427.722-.666 1.561-.666 2.475 0 1.71.87 3.213 2.188 4.096-.807-.026-1.566-.248-2.228-.616v.061c0 2.385 1.693 4.374 3.946 4.827-.413.111-.849.171-1.296.171-.314 0-.615-.03-.916-.086.631 1.953 2.445 3.377 4.604 3.417-1.68 1.319-3.809 2.105-6.102 2.105-.39 0-.779-.023-1.17-.067 2.189 1.394 4.768 2.209 7.557 2.209 9.054 0 13.999-7.496 13.999-13.986 0-.209 0-.42-.015-.63.961-.689 1.8-1.56 2.46-2.548l-.047-.02z"
-          />
-        </svg>
-      </a>
-
-      <a
-        href="mailto:info@qredit.io"
-        target="_blank"
-      >
-        <svg
-          viewBox="0 0 24 24"
-          class="m-2"
-          xmlns="http://www.w3.org/2000/svg"
-          xmlns:xlink="http://www.w3.org/1999/xlink"
-          width="16px"
-          height="16px"
-        >
-          <path
-            fill-rule="evenodd"
-            fill="currentColor"
-            d="M12,0C5.4,0,0,5.4,0,12c0,6.6,5.4,12,12,12c2.3,0,4.6-0.7,6.6-1.9c0.6-0.4,0.7-1.2,0.3-1.7l-0.5-0.6c-0.4-0.5-1-0.6-1.5-0.2 c-1.4,0.9-3.1,1.4-4.8,1.4c-4.9,0-8.9-4-8.9-8.9s4-8.9,8.9-8.9c4.8,0,8.9,2.8,8.9,7.7c0,1.9-1,3.9-2.8,4c-0.8,0-0.8-0.6-0.7-1.5 l1.1-5.9c0.1-0.7-0.4-1.4-1.1-1.4h-2.2c-0.3,0-0.6,0.2-0.6,0.6l0,0c-0.7-0.9-2-1.1-2.9-1.1c-3.6,0-6.7,3-6.7,7.3 c0,3.2,1.8,5.1,4.6,5.1c1.3,0,2.8-0.8,3.6-1.9c0.5,1.7,2,1.7,3.4,1.7c5.3,0,7.3-3.5,7.3-7.1C24,4.2,18.7,0,12,0z M11,14.7 c-1.1,0-1.7-0.8-1.7-2c0-2.2,1.5-3.5,2.8-3.5c1.1,0,1.7,0.7,1.7,2C13.8,13.4,12.1,14.7,11,14.7L11,14.7z"
-          />
-        </svg>
-      </a>
-
-      <a
-        href="https://t.me/qredit"
-        target="_blank"
-      >
-        <svg
-          viewBox="0 0 14 14"
-          class="m-2"
-          xmlns="http://www.w3.org/2000/svg"
-          xmlns:xlink="http://www.w3.org/1999/xlink"
-          width="16px"
-          height="16px"
-        >
-          <path
-            fill-rule="evenodd"
-            fill="currentColor"
-            d="M0.247,5.753 L3.472,6.939 L4.722,10.892 C4.801,11.145 5.116,11.239 5.324,11.071 L7.123,9.628 C7.311,9.476 7.580,9.469 7.777,9.610 L11.020,11.928 C11.243,12.088 11.560,11.967 11.615,11.701 L13.991,0.450 C14.052,0.160 13.763,-0.082 13.482,0.025 L0.243,5.053 C-0.084,5.177 -0.081,5.632 0.247,5.753 ZM4.520,6.308 L10.825,2.485 C10.938,2.416 11.054,2.567 10.957,2.656 L5.754,7.418 C5.571,7.585 5.453,7.809 5.420,8.053 L5.242,9.346 C5.219,9.519 4.973,9.536 4.925,9.369 L4.243,7.011 C4.164,6.742 4.279,6.455 4.520,6.308 Z"
-          />
-        </svg>
-      </a>
-
-      <a
-        href="https://github.com/qredit"
-        target="_blank"
-      >
-        <svg
-          viewBox="0 0 24 24"
-          class="m-2"
-          xmlns="http://www.w3.org/2000/svg"
-          xmlns:xlink="http://www.w3.org/1999/xlink"
-          width="16px"
-          height="16px"
-        >
-          <path
-            fill-rule="evenodd"
-            fill="currentColor"
-            d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"
-          />
-        </svg>
-      </a>
-
-      <a
-        href="https://discord.com/invite/k3m9Mgy"
-        target="_blank"
-      >
-        <svg
-          viewBox="0 0 24 24"
-          class="m-2"
-          xmlns:xlink="http://www.w3.org/1999/xlink"
-          width="16px"
-          height="16px"
-        >
-          <path
-            fille-rule="evenodd"
-            fill="currentColor"
-            d="M20.222 0c1.406 0 2.54 1.137 2.607 2.475V24l-2.677-2.273-1.47-1.338-1.604-1.398.67 2.205H3.71c-1.402 0-2.54-1.065-2.54-2.476V2.48C1.17 1.142 2.31.003 3.715.003h16.5L20.222 0zm-6.118 5.683h-.03l-.202.2c2.073.6 3.076 1.537 3.076 1.537-1.336-.668-2.54-1.002-3.744-1.137-.87-.135-1.74-.064-2.475 0h-.2c-.47 0-1.47.2-2.81.735-.467.203-.735.336-.735.336s1.002-1.002 3.21-1.537l-.135-.135s-1.672-.064-3.477 1.27c0 0-1.805 3.144-1.805 7.02 0 0 1 1.74 3.743 1.806 0 0 .4-.533.805-1.002-1.54-.468-2.14-1.404-2.14-1.404s.134.066.335.2h.06c.03 0 .044.015.06.03v.006c.016.016.03.03.06.03.33.136.66.27.93.4.466.202 1.065.403 1.8.536.93.135 1.996.2 3.21 0 .6-.135 1.2-.267 1.8-.535.39-.2.87-.4 1.397-.737 0 0-.6.936-2.205 1.404.33.466.795 1 .795 1 2.744-.06 3.81-1.8 3.87-1.726 0-3.87-1.815-7.02-1.815-7.02-1.635-1.214-3.165-1.26-3.435-1.26l.056-.02zm.168 4.413c.703 0 1.27.6 1.27 1.335 0 .74-.57 1.34-1.27 1.34-.7 0-1.27-.6-1.27-1.334.002-.74.573-1.338 1.27-1.338zm-4.543 0c.7 0 1.266.6 1.266 1.335 0 .74-.57 1.34-1.27 1.34-.7 0-1.27-.6-1.27-1.334 0-.74.57-1.338 1.27-1.338z"
-          />
-        </svg>
-      </a>
-
-      <a
-        href="https://community.qredit.io"
-        target="_blank"
-      >
-        <svg
-          viewBox="0 0 24 24"
-          class="m-2"
-          xmlns="http://www.w3.org/2000/svg"
-          xmlns:xlink="http://www.w3.org/1999/xlink"
-          width="16px"
-          height="16px"
-        >
-          <path
-            fill-rule="evenodd"
-            fill="currentColor"
-            d="M2.846 6.36c.03-.295-.083-.586-.303-.784l-2.24-2.7v-.403H7.26l5.378 11.795 4.728-11.795H24v.403l-1.917 1.837c-.165.126-.247.333-.213.538v13.5c-.034.204.048.41.213.537l1.87 1.837v.403h-9.41v-.403l1.937-1.882c.19-.19.19-.246.19-.538V7.794l-5.39 13.688h-.727L4.278 7.794v9.174c-.052.386.076.774.347 1.053l2.52 3.06v.402H0v-.403l2.52-3.06c.27-.278.39-.67.326-1.052V6.36z"
-          />
-        </svg>
+      <a v-for="social in socialMediaData" :key="social.name" :href="social.url" target="_blank">
+        <SvgIcon class="m-1" :name="`social/${social.name}`" :view-box="social.viewBox" />
       </a>
     </div>
   </footer>
 </template>
 
-<script type="text/ecmascript-6">
-import moment from 'moment'
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
+import { brand, socialMedia } from "@/config";
+import moment from "moment";
 
-export default {
-  name: 'AppFooter',
-  computed: {
-    year () {
-      return moment().format('Y')
-    },
-    version () {
-      return GIT_VERSION
-    },
-    versionLink () {
-      return `https://github.com/Qredit/explorer/commit/${GIT_VERSION}`
-    },
-    date () {
-      return GIT_DATE
-    }
+@Component
+export default class AppFooter extends Vue {
+  get year() {
+    return moment().format("Y");
+  }
+
+  get version() {
+    return process.env.VUE_APP_GIT_VERSION;
+  }
+
+  get versionLink() {
+    return `https://github.com/qredit/explorer/commit/${process.env.VUE_APP_GIT_VERSION}`;
+  }
+
+  get date() {
+    return process.env.VUE_APP_GIT_DATE;
+  }
+
+  get brandData() {
+    return brand;
+  }
+
+  get socialMediaData() {
+    return socialMedia;
   }
 }
 </script>
+
 <style>
 .AppFooter {
   @apply .flex .flex-wrap .max-w-2xl .mx-auto .py-8 .text-theme-text-tertiary .justify-between .items-center;
 }
+
 .AppFooter svg {
   @apply .inline;
 }

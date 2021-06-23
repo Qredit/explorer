@@ -4,22 +4,9 @@
 
     <WalletDetails :wallet="wallet" />
 
-    <section
-      v-show="isDelegate"
-      :class="{ 'py-5 md:py-10': isDelegate }"
-      class="page-section mb-5"
-    >
+    <section v-show="isDelegate" :class="{ 'py-5 md:py-10': isDelegate }" class="page-section mb-5">
       <div class="px-5 sm:px-10">
-        <WalletDelegate
-          v-show="isDelegate"
-          :wallet="wallet"
-          @username="username = $event"
-        />
-        <WalletVoters
-          v-show="isDelegate"
-          :wallet="wallet"
-          :username="username"
-        />
+        <WalletDelegate v-show="isDelegate" :wallet="wallet" @username="username = $event" />
       </div>
     </section>
     <!-- SLPEDIT -->
@@ -69,9 +56,7 @@ export default {
   async beforeRouteEnter(to, from, next) {
     try {
       const response = await WalletService.find(to.params.address);
-      const tokensresponse = await TokenService.getWalletTokens(
-        to.params.address
-      );
+      const tokensresponse = await TokenService.getWalletTokens(to.params.address);
       next((vm) => {
         vm.setWallet(response);
         vm.setTokens(tokensresponse);
@@ -87,9 +72,7 @@ export default {
 
     try {
       const response = await WalletService.find(to.params.address);
-      const tokensresponse = await TokenService.getWalletTokens(
-        to.params.address
-      );
+      const tokensresponse = await TokenService.getWalletTokens(to.params.address);
       this.setWallet(response);
       this.setTokens(tokensresponse);
       next();

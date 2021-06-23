@@ -1,11 +1,8 @@
 <template>
   <div class="max-w-2xl mx-auto md:pt-5">
-    <ContentHeader>{{ $t("Latest transactions and blocks") }}</ContentHeader>
-    <div class="hr-gradient" />
-    <section
-      v-if="priceChart"
-      class="hidden md:block mb-5 bg-theme-feature-background xl:rounded-lg"
-    >
+    <ContentHeader>{{ $t("PAGES.HOME.HEADER") }}</ContentHeader>
+
+    <section v-if="isChartEnabled" class="hidden md:block mb-5 bg-theme-feature-background xl:rounded-lg">
       <ChartWrapper />
     </section>
 
@@ -15,29 +12,21 @@
           :class="dataView === 'transactions' ? 'mb-8 sm:mb-4' : 'mb-4'"
           class="flex items-end w-full border-b mx-5 sm:mx-10"
         >
-          <div
-            :class="dataView === 'transactions' ? 'active-tab' : 'inactive-tab'"
-            @click="dataView = 'transactions'"
-          >
-            {{ $t("Latest transactions") }}
+          <div :class="dataView === 'transactions' ? 'active-tab' : 'inactive-tab'" @click="dataView = 'transactions'">
+            {{ $t("PAGES.HOME.LATEST_TRANSACTIONS") }}
           </div>
-          <div
-            :class="dataView === 'blocks' ? 'active-tab' : 'inactive-tab'"
-            @click="dataView = 'blocks'"
-          >
-            {{ $t("Latest blocks") }}
+          <div :class="dataView === 'blocks' ? 'active-tab' : 'inactive-tab'" @click="dataView = 'blocks'">
+            {{ $t("PAGES.HOME.LATEST_BLOCKS") }}
           </div>
         </nav>
 
-        <SelectionType
-          v-if="dataView === 'transactions'"
-          @change="onTypeChange"
-        />
+        <SelectionType v-if="dataView === 'transactions'" @change="onTypeChange" />
       </div>
 
       <LatestTransactions
         v-if="dataView === 'transactions'"
-        :transaction-type="transactionType"
+        :transaction-type="transactionType.type"
+        :transaction-group="transactionType.typeGroup"
       />
 
       <LatestBlocks v-if="dataView === 'blocks'" />
@@ -45,37 +34,36 @@
   </div>
 </template>
 
-<script type="text/ecmascript-6">
-import ChartWrapper from '@/components/ChartWrapper'
-import { LatestBlocks, LatestTransactions } from '@/components/home'
-import SelectionType from '@/components/SelectionType'
-import { mapGetters } from 'vuex'
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
+import ChartWrapper from "@/components/ChartWrapper.vue";
+import { LatestBlocks, LatestTransactions } from "@/components/home";
+import SelectionType from "@/components/SelectionType.vue";
+import { ITransactionType } from "@/interfaces";
 
-export default {
+@Component({
   components: {
     ChartWrapper,
     LatestBlocks,
     LatestTransactions,
-    SelectionType
+    SelectionType,
   },
+})
+export default class HomePage extends Vue {
+  private dataView = "transactions";
+  private transactionType: ITransactionType = { key: "ALL", type: -1 };
 
-  data: () => ({
-    dataView: 'transactions',
-    transactionType: -1
-  }),
+  get isChartEnabled() {
+    return this.$store.getters["ui/priceChartOptions"].enabled;
+  }
 
-  computed: {
-    ...mapGetters('ui', ['priceChart'])
-  },
+  public created() {
+    const savedType = localStorage.getItem("transactionType");
+    this.transactionType = savedType ? JSON.parse(savedType) : { key: "ALL", type: -1 };
+  }
 
-  created () {
-    this.transactionType = Number(localStorage.getItem('transactionType') || -1)
-  },
-
-  methods: {
-    onTypeChange (type) {
-      this.transactionType = type
-    }
+  private onTypeChange(type: ITransactionType) {
+    this.transactionType = type;
   }
 }
 </script>

@@ -1,21 +1,13 @@
+<!-- BEGIN QREDEDIT -->
 <template>
   <span>
-    <RouterLink
-      :to="{ name: 'token', params: { id } }"
-      class="hidden md:inline-block"
-    >
+    <RouterLink :to="{ name: 'token', params: { id } }" class="hidden md:inline-block">
       <span v-if="hasDefaultSlot">
         <slot />
       </span>
-      <span
-        v-else
-        v-tooltip="id"
-      >{{ truncate(id, length) }}</span>
+      <span v-else v-tooltip="id">{{ truncate(id, length) }}</span>
     </RouterLink>
-    <RouterLink
-      :to="{ name: 'token', params: { id } }"
-      class="md:hidden"
-    >
+    <RouterLink :to="{ name: 'token', params: { id } }" class="md:hidden">
       <span v-tooltip="id">{{ truncate(id) }}</span>
     </RouterLink>
   </span>
@@ -23,24 +15,25 @@
 
 <script type="text/ecmascript-6">
 export default {
-  name: 'LinkToken',
+  name: "LinkToken",
 
   props: {
     id: {
       type: String,
-      required: true
+      required: true,
     },
     length: {
       type: Number,
       required: false,
-      default: 13
-    }
+      default: 13,
+    },
   },
 
   computed: {
-    hasDefaultSlot () {
-      return !!this.$slots.default
-    }
-  }
-}
+    hasDefaultSlot() {
+      return !!this.$slots.default;
+    },
+  },
+};
 </script>
+<!-- BEGIN QREDEDIT -->

@@ -1,90 +1,106 @@
 <template>
   <div class="max-w-2xl mx-auto md:pt-5">
-    <ContentHeader>{{ $t("Delegate Monitor") }}</ContentHeader>
+    <ContentHeader>{{ $t("PAGES.DELEGATE_MONITOR.TITLE") }}</ContentHeader>
 
     <MonitorHeader />
 
     <section class="page-section py-5 md:py-10">
-      <nav class="mx-5 sm:mx-10 mb-4 border-b flex items-end">
-        <div
-          :class="activeTab === 'active' ? 'active-tab' : 'inactive-tab'"
-          @click="activeTab = 'active'"
-        >
-          {{ $t("Active") }}
+      <nav class="mx-5 sm:mx-10 mb-4 border-b flex items-end overflow-x-auto">
+        <div :class="activeTab === 'active' ? 'active-tab' : 'inactive-tab'" @click="activeTab = 'active'">
+          {{ $t("PAGES.DELEGATE_MONITOR.ACTIVE") }}
         </div>
-        <div
-          :class="activeTab === 'standby' ? 'active-tab' : 'inactive-tab'"
-          @click="activeTab = 'standby'"
-        >
-          {{ $t("Standby") }}
+        <div :class="activeTab === 'standby' ? 'active-tab' : 'inactive-tab'" @click="activeTab = 'standby'">
+          {{ $t("PAGES.DELEGATE_MONITOR.STANDBY") }}
+        </div>
+        <div :class="activeTab === 'resigned' ? 'active-tab' : 'inactive-tab'" @click="activeTab = 'resigned'">
+          {{ $t("PAGES.DELEGATE_MONITOR.RESIGNED") }}
         </div>
       </nav>
 
-      <ForgingStats
-        v-show="activeTab === 'active'"
-        :delegates="delegates || []"
-      />
+      <ForgingStats v-show="activeTab === 'active'" :delegates="delegates || []" />
 
-      <ActiveDelegates
-        v-if="activeTab === 'active'"
+      <TableDelegates
         :delegates="delegates"
+        :active-tab="activeTab"
+        :sort-query="sortParams[activeTab]"
+        @on-sort-change="onSortChange"
       />
 
-      <StandbyDelegates v-if="activeTab === 'standby'" />
+      <div v-if="delegates && delegates.length === activeDelegates" class="mx-5 sm:mx-10 mt-5 md:mt-10 flex flex-wrap">
+        <RouterLink
+          :to="{
+            name: activeTab === 'resigned' ? 'delegates-resigned' : 'delegates',
+            params: { page: activeTab === 'standby' ? 5 : 3 },
+          }"
+          tag="button"
+          class="button-lg"
+        >
+          {{ $t("PAGINATION.SHOW_MORE") }}
+        </RouterLink>
+      </div>
     </section>
   </div>
 </template>
 
-<script type="text/ecmascript-6">
-import {
-  ActiveDelegates,
-  MonitorHeader,
-  ForgingStats,
-  StandbyDelegates
-} from '@/components/monitor'
-import DelegateService from '@/services/delegate'
-import { mapGetters } from 'vuex'
+<script lang="ts">
+import { Component, Vue, Watch } from "vue-property-decorator";
+import { mapGetters } from "vuex";
+import { IDelegate, ISortParameters } from "@/interfaces";
+import { MonitorHeader, ForgingStats } from "@/components/monitor";
+import DelegateService from "@/services/delegate";
 
-export default {
+@Component({
   components: {
-    ActiveDelegates,
     MonitorHeader,
     ForgingStats,
-    StandbyDelegates
   },
-
-  data: () => ({
-    delegates: null,
-    activeTab: 'active'
-  }),
-
   computed: {
-    ...mapGetters('network', ['height'])
+    ...mapGetters("network", ["height", "activeDelegates"]),
   },
+})
+export default class DelegateMonitor extends Vue {
+  private delegates: IDelegate[] | null = null;
+  private activeTab = "active";
+  private height: number;
 
-  watch: {
-    async height () {
-      await this.setDelegates()
+  get sortParams() {
+    return this.$store.getters["ui/delegateSortParams"];
+  }
+
+  set sortParams(params: ISortParameters) {
+    this.$store.dispatch("ui/setDelegateSortParams", {
+      ...this.sortParams,
+      [this.activeTab]: {
+        field: params.field,
+        type: params.type,
+      },
+    });
+  }
+
+  @Watch("height")
+  public async onHeightChanged() {
+    await this.setDelegates();
+  }
+
+  @Watch("activeTab")
+  public async onActiveTabChanged() {
+    this.delegates = null;
+    await this.setDelegates();
+  }
+
+  public async created() {
+    await this.setDelegates();
+  }
+
+  private async setDelegates() {
+    if (this.height) {
+      // @ts-ignore
+      this.delegates = await DelegateService[this.activeTab]();
     }
-  },
+  }
 
-  async created () {
-    await this.setDelegates()
-  },
-
-  methods: {
-    async setDelegates () {
-      if (this.height) {
-        this.delegates = await DelegateService.active()
-      }
-    }
+  private onSortChange(params: ISortParameters) {
+    this.sortParams = params;
   }
 }
 </script>
-
-<style>
-.meter {
-  width: 50px;
-  height: 50px;
-}
-</style>

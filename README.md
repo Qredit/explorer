@@ -1,25 +1,25 @@
-# Qredit Explorer 3.0
+# Qredit Explorer 3.0 - QSLP
 
 <p align="center">
     <img src="/ARKExplorer.png" />
 </p>
 
-> Designed and developed from the ground-up, using lean & fast developmental frameworks (Tailwind CSS & Vue.JS).
+> Designed and developed from the ground-up by Ark.io, using lean & fast developmental frameworks (Tailwind CSS & Vue.JS).
 
-[![Build Status](https://badgen.now.sh/circleci/github/ArkEcosystem/explorer)](https://circleci.com/gh/ArkEcosystem/explorer)
+[![Build Status](https://badgen.now.sh/github/status/qredit/Explorer/develop)](https://github.com/ArkEcosystem/explorer/actions?query=branch%3Adevelop)
 [![Codecov](https://badgen.now.sh/codecov/c/github/arkecosystem/explorer)](https://codecov.io/gh/arkecosystem/explorer)
 [![License: MIT](https://badgen.now.sh/badge/license/MIT/green)](https://opensource.org/licenses/MIT)
 
 > Lead Maintainer: [Michel Kraaijeveld](https://github.com/ItsANameToo)
 
-You can access it at [https://explorer.ark.io/](https://explorer.ark.io/).
+You can access it at [https://explorer.qredit.io/](https://explorer.ark.io/).
 
 ## Build Setup
 
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/ArkEcosystem/explorer
+git clone https://github.com/qredit/explorer
 ```
 
 ### 2. Install Dependencies
@@ -75,19 +75,19 @@ EXPLORER_HOST="127.0.0.1" EXPLORER_PORT="4200" node express-server.js
 #### 4.1 Mainnet
 
 ```bash
-yarn dev # or yarn dev:mainnet
+yarn serve # or yarn serve:mainnet
 ```
 
 #### 4.2 Devnet
 
 ```bash
-yarn dev:devnet
+yarn serve:devnet
 ```
 
 #### 4.3 Custom
 
 ```bash
-yarn dev --env.network=custom
+yarn serve --env.network=custom
 ```
 
 ### 5. History Mode
@@ -103,21 +103,14 @@ yarn build:mainnet --history
 #### 5.2 Development
 
 ```bash
-yarn dev --env.routerMode=history
+yarn serve --env.routerMode=history
 ```
 
 ## Testing
 
-``` bash
+```bash
 $ yarn test
 ```
-
-## Contributing
-
-* If you find any bugs, submit an [issue](../../issues) or open a [pull-request](../../pulls), helping us catch and fix them.
-* Engage with other users and developers on the [ArkEcosystem Slack](https://ark.io/slack/).
-* Join our [gitter](https://gitter.im/ark-developers/Lobby).
-* [Contribute bounties](https://github.com/ArkEcosystem/bounty-program).
 
 ## Security
 

@@ -1,63 +1,55 @@
 <template>
   <div class="max-w-2xl mx-auto md:pt-5">
-    <ContentHeader>{{ $t("Transactions") }}</ContentHeader>
+    <ContentHeader>{{ $t("COMMON.TRANSACTIONS") }}</ContentHeader>
 
     <section class="mb-5">
       <div class="px-5 sm:px-10 py-8 bg-theme-feature-background flex xl:rounded-lg items-center justify-between">
-        <div class="mr-6 flex-none">
-          <img
-            class="block"
-            src="@/assets/images/icons/transaction.svg"
+        <div class="relative mr-6 flex-none">
+          <SvgIcon class="block" name="transaction" view-box="0 0 43 39" />
+          <div
+            class="absolute text-theme-transaction-icon text-2xl"
+            style="top: 50%; left: 50%; transform: translate(-50%, -50%);"
           >
+            {{ networkSymbol }}
+          </div>
         </div>
         <div class="flex-auto min-w-0">
           <div class="text-grey mb-2">
-            {{ $t("Address") }}
+            {{ $t("WALLET.ADDRESS") }}
           </div>
           <div class="flex">
             <div class="text-lg text-white semibold truncate">
               <span class="mr-2">{{ address }}</span>
             </div>
-            <Clipboard
-              v-if="address"
-              :value="address"
-            />
+            <Clipboard v-if="address" :value="address" />
           </div>
         </div>
         <div class="flex flex-col ml-4">
           <div class="text-grey mb-2">
-            {{ $t("Type") }}
+            {{ $t("COMMON.TYPE") }}
           </div>
           <div class="relative text-white z-20">
             <span
+              v-click-outside="closeDropdown"
               class="cursor-pointer flex items-center"
               @click="selectOpen = !selectOpen"
             >
-              <span class="mr-1">{{ $t(capitalize(type)) }}</span>
-              <svg
-                :class="{ 'rotate-180': selectOpen }"
-                class="fill-current"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                width="16px"
-                height="16px"
-              >
-                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-              </svg>
+              <span class="mr-1">{{ $t(`TRANSACTION.TYPES.${type.toUpperCase()}`) }}</span>
+              <SvgIcon :class="{ 'rotate-180': selectOpen }" name="caret" view-box="0 0 16 16" />
             </span>
             <ul
               v-show="selectOpen"
-              class="absolute right-0 mt-px bg-white shadow rounded border overflow-hidden text-sm"
+              class="absolute right-0 mt-px bg-theme-content-background shadow-theme rounded border overflow-hidden text-sm"
             >
-              <li
-                v-for="txType in ['all', 'sent', 'received']"
-                :key="txType"
-              >
+              <li v-for="type in availableTransactionTypes" :key="type">
                 <RouterLink
-                  :to="{ name: 'wallet-transactions', params: { address: address, type: txType, page: 1 } }"
+                  :to="{
+                    name: 'wallet-transactions',
+                    params: { address: address, type, page: 1 },
+                  }"
                   class="dropdown-button"
                 >
-                  {{ $t(capitalize(txType)) }}
+                  {{ $t(`TRANSACTION.TYPES.${type.toUpperCase()}`) }}
                 </RouterLink>
               </li>
             </ul>
@@ -68,111 +60,177 @@
 
     <section class="page-section py-5 md:py-10">
       <div class="hidden sm:block">
-        <TableTransactionsDesktop :transactions="transactions" />
+        <TableTransactionsDesktop
+          v-if="!isLocks"
+          :transactions="transactions"
+          :sort-query="sortParams"
+          @on-sort-change="onSortChange"
+        />
+        <TableLockTransactionsDesktop
+          v-else
+          :transactions="transactions"
+          :sort-query="sortParams"
+          @on-sort-change="onSortChange"
+        />
       </div>
       <div class="sm:hidden">
-        <TableTransactionsMobile :transactions="transactions" />
+        <TableTransactionsMobile v-if="!isLocks" :transactions="transactions" />
+        <TableLockTransactionsMobile v-else :transactions="transactions" />
       </div>
-      <Paginator
-        v-if="showPaginator"
-        :previous="meta.previous"
-        :next="meta.next"
-        @previous="onPrevious"
-        @next="onNext"
-      />
+      <Pagination v-if="showPagination" :meta="meta" :current-page="currentPage" @page-change="onPageChange" />
     </section>
   </div>
 </template>
 
-<script type="text/ecmascript-6">
-import TransactionService from '@/services/transaction'
+<script lang="ts">
+import { Component, Vue, Watch } from "vue-property-decorator";
+import { mapGetters } from "vuex";
+import { Route } from "vue-router";
+import { IBlock, IDelegate, ISortParameters, ITransaction, IWallet } from "@/interfaces";
+import TransactionService from "@/services/transaction";
 
-export default {
-  data: () => ({
-    transactions: null,
-    meta: null,
-    currentPage: 0,
-    selectOpen: false
-  }),
+Component.registerHooks(["beforeRouteEnter", "beforeRouteUpdate"]);
 
+@Component({
   computed: {
-    showPaginator () {
-      return this.meta && (this.meta.previous || this.meta.next)
-    },
+    ...mapGetters("network", { networkSymbol: "symbol" }),
+    ...mapGetters("network", ["hasHtlcEnabled"]),
 
-    address () {
-      return this.$route.params.address
-    },
+    availableTransactionTypes() {
+      const types = ["all", "sent", "received"];
 
-    type () {
-      return this.$route.params.type
-    }
-  },
-
-  watch: {
-    currentPage () {
-      this.changePage()
-    }
-  },
-
-  async beforeRouteEnter (to, from, next) {
-    try {
-      const { meta, data } = await TransactionService[`${to.params.type}ByAddress`](to.params.address, to.params.page)
-
-      next(vm => {
-        vm.currentPage = to.params.page
-        vm.setTransactions(data)
-        vm.setMeta(meta)
-      })
-    } catch (e) { next({ name: '404' }) }
-  },
-
-  async beforeRouteUpdate (to, from, next) {
-    this.selectOpen = false
-    this.transactions = null
-    this.meta = null
-
-    try {
-      const { meta, data } = await TransactionService[`${to.params.type}ByAddress`](to.params.address, to.params.page)
-
-      this.currentPage = to.params.page
-      this.setTransactions(data)
-      this.setMeta(meta)
-      next()
-    } catch (e) { next({ name: '404' }) }
-  },
-
-  methods: {
-    setTransactions (transactions) {
-      if (!transactions) {
-        return
+      if (this.hasHtlcEnabled) {
+        types.push("locks");
       }
 
-      this.transactions = transactions
+      return types;
     },
+  },
+})
+export default class WalletTransactions extends Vue {
+  private transactions: ITransaction[] | null = null;
+  private meta: any | null = null;
+  private currentPage = 0;
+  private selectOpen = false;
+  private networkSymbol: string;
 
-    setMeta (meta) {
-      this.meta = meta
-    },
+  get showPagination() {
+    return this.meta && this.meta.pageCount > 1;
+  }
 
-    onPrevious () {
-      this.currentPage = Number(this.currentPage) - 1
-    },
+  get address() {
+    return this.$route.params.address;
+  }
 
-    onNext () {
-      this.currentPage = Number(this.currentPage) + 1
-    },
+  get type() {
+    return this.$store.getters["ui/walletTransactionTab"];
+  }
 
-    changePage () {
+  set type(type: string) {
+    this.$store.dispatch("ui/setWalletTransactionTab", type);
+  }
+
+  get sortParams() {
+    return this.$store.getters["ui/transactionSortParams"];
+  }
+
+  set sortParams(params: ISortParameters) {
+    this.$store.dispatch("ui/setTransactionSortParams", {
+      field: params.field,
+      type: params.type,
+    });
+  }
+
+  get isLocks() {
+    return this.$route.params.type === "locks";
+  }
+
+  @Watch("currentPage")
+  public onCurrentPageChanged() {
+    this.changePage();
+  }
+
+  public async beforeRouteEnter(to: Route, from: Route, next: (vm: any) => void) {
+    try {
+      // @ts-ignore
+      const { meta, data } = await TransactionService[`${to.params.type}ByAddress`](
+        to.params.address,
+        Number(to.params.page),
+      );
+
+      next((vm: WalletTransactions) => {
+        vm.type = to.params.type;
+        vm.currentPage = Number(to.params.page);
+        vm.setTransactions(data);
+        vm.setMeta(meta);
+      });
+    } catch (e) {
+      next({ name: "404" });
+    }
+  }
+
+  public async beforeRouteUpdate(to: Route, from: Route, next: (vm?: any) => void) {
+    this.selectOpen = false;
+    this.transactions = null;
+    this.meta = null;
+
+    try {
+      // @ts-ignore
+      const { meta, data } = await TransactionService[`${to.params.type}ByAddress`](
+        to.params.address,
+        Number(to.params.page),
+      );
+
+      this.type = to.params.type;
+      this.currentPage = Number(to.params.page);
+      this.setTransactions(data);
+      this.setMeta(meta);
+      next();
+    } catch (e) {
+      next({ name: "404" });
+    }
+  }
+
+  private setTransactions(transactions: ITransaction[]) {
+    if (!transactions) {
+      return;
+    }
+
+    this.transactions = transactions.map((transaction) => ({
+      ...transaction,
+      price: null,
+    }));
+  }
+
+  private setMeta(meta: any) {
+    this.meta = meta;
+  }
+
+  private onPageChange(page: number) {
+    this.currentPage = page;
+  }
+
+  private closeDropdown() {
+    this.selectOpen = false;
+  }
+
+  private changePage() {
+    if (this.currentPage !== Number(this.$route.params.page) || this.address !== this.$route.params.address) {
+      // @ts-ignore
       this.$router.push({
-        name: 'wallet-transactions',
+        name: "wallet-transactions",
         params: {
           address: this.address,
           type: this.type,
-          page: this.currentPage
-        }
-      })
+          page: this.currentPage,
+        },
+      });
     }
+  }
+
+  // TODO: handle difference in locks vs all / received / sent pages
+  private onSortChange(params: ISortParameters) {
+    this.sortParams = params;
   }
 }
 </script>

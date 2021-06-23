@@ -2,24 +2,18 @@
   <Loader :data="wallets">
     <TableWrapper
       v-bind="$attrs"
-      :has-pagination="false"
       :columns="columns"
       :rows="wallets"
-      :no-data-message="$t('No results')"
+      :no-data-message="$t('COMMON.NO_RESULTS')"
       @on-sort-change="emitSortChange"
     >
-      <template
-        slot-scope="data"
-      >
+      <template slot-scope="data">
         <div v-if="data.column.field === 'originalIndex'">
           {{ getRank(data.row.originalIndex) }}
         </div>
 
         <div v-else-if="data.column.field === 'address'">
-          <LinkWallet
-            :address="data.row.address"
-            :trunc="false"
-          />
+          <LinkWallet :address="data.row.address" :trunc="false" />
         </div>
 
         <div v-else-if="data.column.field === 'balance'">
@@ -29,97 +23,101 @@
         </div>
 
         <div v-else-if="data.column.field === 'supply'">
-          {{ percentageString((data.row.balance / total) * 100) }}
+          {{ supplyPercentage(data.row.balance) }}
         </div>
       </template>
     </TableWrapper>
   </Loader>
 </template>
 
-<script type="text/ecmascript-6">
-import { mapGetters } from 'vuex'
+<script lang="ts">
+import { Component, Prop, Vue } from "vue-property-decorator";
+import { ISortParameters, IWallet } from "@/interfaces";
+import { mapGetters } from "vuex";
+import { BigNumber } from "@/utils";
+import { paginationLimit } from "@/constants";
 
-export default {
-  name: 'TableWalletsDesktop',
-
-  props: {
-    wallets: {
-      validator: value => {
-        return Array.isArray(value) || value === null
-      },
-      required: true
-    },
-
-    total: {
-      type: Number,
-      required: true
-    }
-  },
-
-  data: () => ({
-    windowWidth: 0
-  }),
-
+@Component({
   computed: {
-    ...mapGetters('network', ['supply']),
-
-    truncateBalance () {
-      return this.windowWidth < 700
-    },
-
-    columns () {
-      const columns = [
-        {
-          label: this.$t('Rank'),
-          field: 'originalIndex',
-          type: 'number',
-          thClass: 'start-cell w-32',
-          tdClass: 'start-cell w-32'
-        },
-        {
-          label: this.$t('Address'),
-          field: 'address'
-        },
-        {
-          label: this.$t('Balance'),
-          field: 'balance',
-          type: 'number',
-          tdClass: 'whitespace-no-wrap'
-        },
-        {
-          label: this.$t('Supply'),
-          field: 'supply',
-          type: 'number',
-          sortable: false,
-          thClass: 'end-cell w-24 not-sortable',
-          tdClass: 'end-cell w-24'
-        }
-      ]
-
-      return columns
-    }
+    ...mapGetters("network", ["supply"]),
   },
+})
+export default class TableWalletsDesktop extends Vue {
+  get truncateBalance() {
+    return this.windowWidth < 700;
+  }
 
-  mounted () {
-    this.windowWidth = window.innerWidth
+  get columns() {
+    const columns = [
+      {
+        label: this.$t("COMMON.RANK"),
+        field: "originalIndex",
+        type: "number",
+        thClass: "start-cell w-32",
+        tdClass: "start-cell w-32",
+      },
+      {
+        label: this.$t("WALLET.ADDRESS"),
+        field: "address",
+      },
+      {
+        label: this.$t("COMMON.BALANCE"),
+        field: "balance",
+        type: "number",
+        tdClass: "whitespace-no-wrap",
+      },
+      {
+        label: this.$t("COMMON.SUPPLY"),
+        field: "supply",
+        type: "number",
+        sortable: false,
+        thClass: "end-cell w-24 not-sortable",
+        tdClass: "end-cell w-24",
+      },
+    ];
+
+    return columns;
+  }
+  @Prop({
+    required: true,
+    validator: (value) => {
+      return Array.isArray(value) || value === null;
+    },
+  })
+  public wallets: IWallet[] | null;
+  @Prop({ required: true }) public total: string;
+
+  private windowWidth = 0;
+  private supply: string;
+
+  public mounted() {
+    this.windowWidth = window.innerWidth;
 
     this.$nextTick(() => {
-      window.addEventListener('resize', () => {
-        this.windowWidth = window.innerWidth
-      })
-    })
-  },
+      window.addEventListener("resize", () => {
+        this.windowWidth = window.innerWidth;
+      });
+    });
+  }
 
-  methods: {
-    getRank (value) {
-      const page = this.$route.params.page > 1 ? this.$route.params.page - 1 : 0
+  public supplyPercentage(balance: string): string {
+    // @ts-ignore
+    return this.percentageString(
+      BigNumber.make(balance)
+        .dividedBy(this.total)
+        .times(100)
+        .toNumber(),
+    );
+  }
 
-      return page * 25 + (value + 1)
-    },
+  private getRank(index: number) {
+    const page = Number(this.$route.params.page) > 1 ? Number(this.$route.params.page) - 1 : 0;
 
-    emitSortChange (params) {
-      this.$emit('on-sort-change', params[0])
-    }
+    return page * paginationLimit + (index + 1);
+  }
+
+  private emitSortChange(params: ISortParameters[]) {
+    this.$emit("on-sort-change", params[0]);
   }
 }
 </script>

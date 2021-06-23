@@ -1,64 +1,50 @@
 <template>
   <div class="language-menu w-full px-5 hidden xl:flex items-center justify-end">
-    <button
-      v-for="lang in languages"
-      :key="lang"
-      class="menu-button"
-      @click="setLanguage(lang)"
-    >
-      <img
-        :src="getLanguageFlag(lang)"
-        class="flag-image"
-      >
+    <button v-for="lang in languages" :key="lang" class="menu-button" @click="setLanguage(lang)">
+      <SvgIcon class="flag-image" :name="`flags/${lang}`" view-box="0 0 20 20" />
     </button>
 
     <button
-      class="flex flex-none p-2 close-button"
+      class="flex flex-none p-2 text-theme-button-close close-button"
       @click="$store.dispatch('ui/setHeaderType', null)"
     >
-      <img src="@/assets/images/icons/cross.svg">
+      <SvgIcon name="cross" view-box="0 0 14 14" />
     </button>
   </div>
 </template>
 
-<script type="text/ecmascript-6">
-import { mapGetters } from 'vuex'
-import moment from 'moment'
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
+import { mapGetters } from "vuex";
+import { I18N } from "@/config";
+import moment from "moment";
 
-export default {
-  name: 'HeaderLanguagesDesktop',
-
+@Component({
   computed: {
-    ...mapGetters('ui', ['language']),
-
-    languages () {
-      return Object.keys(this.$i18n.messages).filter(
-        lang => lang !== this.language && lang !== 'en'
-      )
-    }
+    ...mapGetters("ui", ["language"]),
   },
+})
+export default class HeaderLanguagesDesktop extends Vue {
+  private language: string;
 
-  methods: {
-    setLanguage (language) {
-      this.$store.dispatch('ui/setLanguage', language)
-      this.$i18n.locale = language
+  get languages() {
+    return I18N.enabledLocales.filter((locale: string) => locale !== this.language);
+  }
 
-      this.$store.dispatch('ui/setLocale', language)
-      moment.locale(language)
+  private setLanguage(language: string) {
+    this.$store.dispatch("ui/setLanguage", language);
+    this.$i18n.locale = language;
 
-      this.$store.dispatch('ui/setHeaderType', null)
-    },
+    this.$store.dispatch("ui/setLocale", language);
+    moment.locale(language);
 
-    getLanguageFlag (language) {
-      // TODO: consider using flag plugin, for example `flag-icon-css`
-      return require(`@/assets/images/flags/${language}.svg`)
-    }
+    this.$store.dispatch("ui/setHeaderType", null);
   }
 }
 </script>
 
 <style scoped>
-  .close-button {
-    margin-left: 0.825rem;
-  }
+.close-button {
+  margin-left: 0.825rem;
+}
 </style>

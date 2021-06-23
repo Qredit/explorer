@@ -5,19 +5,10 @@
     <template v-if="tokenNotFound">
       <section class="page-section py-5 md:py-10 px-6">
         <div class="my-10 text-center">
-          <NotFound
-            data-type="token"
-            :data-id="token.tokenDetails.tokenIdHex"
-          />
+          <NotFound data-type="token" :data-id="token.tokenDetails.tokenIdHex" />
 
-          <button
-            :disabled="isFetching"
-            class="mt-4 pager-button items-center"
-            @click="fetchToken"
-          >
-            <span>{{
-              !isFetching ? $t("Reload this page") : $t("Loading...")
-            }}</span>
+          <button :disabled="isFetching" class="mt-4 pager-button items-center" @click="fetchToken">
+            <span>{{ !isFetching ? $t("Reload this page") : $t("Loading...") }}</span>
           </button>
         </div>
       </section>
@@ -34,11 +25,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-import {
-  TokenDetails,
-  TokenIdentity,
-  TokenTransactions,
-} from "@/components/token";
+import { TokenDetails, TokenIdentity, TokenTransactions } from "@/components/token";
 import NotFound from "@/components/utils/NotFound";
 import TokenService from "@/services/token";
 
@@ -47,6 +34,7 @@ export default {
     TokenDetails,
     TokenIdentity,
     TokenTransactions,
+    TokenService,
     NotFound,
   },
 
@@ -89,7 +77,7 @@ export default {
     async prepareComponent() {
       this.$store.watch(
         (state) => state.network.height,
-        (value) => this.updateToken()
+        (value) => this.updateToken(),
       );
     },
 

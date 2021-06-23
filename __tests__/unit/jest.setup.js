@@ -1,1 +1,3 @@
-jest.setTimeout(30000)
+require("jest-extended");
+
+jest.setTimeout(30000);

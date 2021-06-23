@@ -119,31 +119,21 @@
       <div class="list-row-border-b">
         <div>{{ $t("TokenQtyMinted") }}</div>
         <div>
-          {{
-            readableCryptoAlt(token.qty_token_minted, false, token.decimals)
-          }}
+          {{ readableCryptoAlt(token.qty_token_minted, false, token.decimals) }}
           {{ token.symbol }}
         </div>
       </div>
       <div class="list-row-border-b">
         <div>{{ $t("TokenQtyBurned") }}</div>
         <div>
-          {{
-            readableCryptoAlt(token.qty_token_burned, false, token.decimals)
-          }}
+          {{ readableCryptoAlt(token.qty_token_burned, false, token.decimals) }}
           {{ token.symbol }}
         </div>
       </div>
       <div class="list-row">
         <div>{{ $t("TokenQtyCirculatingSupply") }}</div>
         <div>
-          {{
-            readableCryptoAlt(
-              token.qty_token_circulating_supply,
-              false,
-              token.decimals
-            )
-          }}
+          {{ readableCryptoAlt(token.qty_token_circulating_supply, false, token.decimals) }}
           {{ token.symbol }}
         </div>
       </div>
@@ -160,7 +150,9 @@ export default {
 
   props: {
     token: {
-      type: Object,
+      // type: Object,
+      object: String,
+      tokenIdHex: Object,
       required: true,
     },
   },
