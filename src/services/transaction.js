@@ -1,9 +1,9 @@
 import ApiService from '@/services/api'
-// QAEADD
+// SLPADD
 import QreditSltService from '@/services/qreditslt'
 
 class TransactionService {
-  async latest (limit = 25) {
+  async latest(limit = 25) {
     const response = await ApiService.get('transactions', {
       params: {
         orderBy: 'timestamp:desc',
@@ -14,25 +14,25 @@ class TransactionService {
     return response.data
   }
 
-  async find (id) {
+  async find(id) {
     const response = await ApiService.get(`transactions/${id}`)
 
-    // QAEADD
+    // SLPADD
     try {
-    	var vendorJson = JSON.parse(response.data.vendorField)
+      var vendorJson = JSON.parse(response.data.vendorField)
 
-    	if (vendorJson.qae1) {
-    		const tokenresponse = await QreditSltService.getTransaction(id)
-    		response.data.tokenData = tokenresponse[0]
-    	}
+      if (vendorJson.qslp1) {
+        const tokenresponse = await QreditSltService.getTransaction(id)
+        response.data.tokenData = tokenresponse[0]
+      }
     } catch (e) {
-    	// Do Nothing
+      // Do Nothing
     }
 
     return response.data
   }
 
-  async filterByType (page, type, limit = 25) {
+  async filterByType(page, type, limit = 25) {
     const params = {
       orderBy: 'timestamp:desc',
       page,
@@ -50,7 +50,7 @@ class TransactionService {
     return response
   }
 
-  async byBlock (id, page = 1, limit = 25) {
+  async byBlock(id, page = 1, limit = 25) {
     const response = await ApiService.get(`blocks/${id}/transactions`, {
       params: {
         orderBy: 'timestamp:desc',
@@ -62,7 +62,7 @@ class TransactionService {
     return response
   }
 
-  async allByAddress (address, page = 1, limit = 25) {
+  async allByAddress(address, page = 1, limit = 25) {
     const response = await ApiService.get(`wallets/${address}/transactions`, {
       params: {
         orderBy: 'timestamp:desc',
@@ -74,7 +74,7 @@ class TransactionService {
     return response
   }
 
-  async sentByAddress (address, page = 1, limit = 25) {
+  async sentByAddress(address, page = 1, limit = 25) {
     const response = await ApiService.get(`wallets/${address}/transactions/sent`, {
       params: {
         orderBy: 'timestamp:desc',
@@ -86,7 +86,7 @@ class TransactionService {
     return response
   }
 
-  async receivedByAddress (address, page = 1, limit = 25) {
+  async receivedByAddress(address, page = 1, limit = 25) {
     const response = await ApiService.get(`wallets/${address}/transactions/received`, {
       params: {
         orderBy: 'timestamp:desc',
@@ -98,7 +98,7 @@ class TransactionService {
     return response
   }
 
-  async sentByAddressCount (senderId) {
+  async sentByAddressCount(senderId) {
     const response = await ApiService.get('transactions', {
       params: {
         senderId,
@@ -108,7 +108,7 @@ class TransactionService {
     return response.meta.totalCount
   }
 
-  async receivedByAddressCount (recipientId) {
+  async receivedByAddressCount(recipientId) {
     const response = await ApiService.get('transactions', {
       params: {
         recipientId,

@@ -4,7 +4,7 @@ import store from '@/store'
 
 const HomeComponent = () => import('@/pages/Home')
 const BlockComponent = () => import('@/pages/Block')
-// QAEADD
+// SLPADD
 const TokenComponent = () => import('@/pages/Token')
 const BlockTransactionsComponent = () => import('@/pages/Block/Transactions')
 const BlocksComponent = () => import('@/pages/Blocks')
@@ -21,7 +21,7 @@ const NotFoundComponent = () => import('@/pages/404')
 
 Vue.use(Router)
 
-function getTitle (title) {
+function getTitle(title) {
   return `${title} - ${process.env.TITLE}`
 }
 
@@ -160,7 +160,7 @@ const router = new Router({
     //   name: 'statistics',
     //   component: StatisticsComponent
     // },
-    // QAEADD
+    // SLPADD
     {
       path: '/token/:id',
       name: 'token',
@@ -206,7 +206,7 @@ const router = new Router({
       meta: { title: route => { return getTitle('Top Wallets') } }
     }
   ],
-  scrollBehavior (to, from, savedPosition) {
+  scrollBehavior(to, from, savedPosition) {
     if (to && to.params && to.params['disableScroll'] === true) {
       return null
     }

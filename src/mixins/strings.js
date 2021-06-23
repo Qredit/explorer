@@ -5,7 +5,7 @@ const locale = store.getters['ui/locale']
 
 export default {
   methods: {
-    truncate (value, length = 13, truncateWhere = 'middle') {
+    truncate(value, length = 13, truncateWhere = 'middle') {
       switch (truncateWhere) {
         case 'left':
           return (value.length > length)
@@ -29,11 +29,11 @@ export default {
       }
     },
 
-    capitalize (value) {
+    capitalize(value) {
       return value.charAt(0).toUpperCase() + value.slice(1)
     },
 
-    percentageString (value, decimals = 2) {
+    percentageString(value, decimals = 2) {
       if (typeof value !== 'undefined') {
         return (value / 100).toLocaleString(locale, {
           minimumFractionDigits: decimals,
@@ -45,16 +45,16 @@ export default {
       return '-'
     },
 
-    // QAEEDIT
-    emojify (text) {
+    // SLPEDIT
+    emojify(text) {
       var isjson = 0
       try {
         var jsondata = JSON.parse(text)
         isjson = 1
       } catch (e) {
       }
-      if (isjson == 1 && jsondata.qae1) {
-        return 'QAE-1'
+      if (isjson == 1 && jsondata.qslp1) {
+        return 'QSLP-1'
       } else {
         return emoji.emojify(text)
       }

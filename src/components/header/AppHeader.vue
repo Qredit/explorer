@@ -5,15 +5,27 @@
   >
     <RouterLink
       :to="{ name: 'home' }"
-      class="logo-container w-50px md:w-80px h-50px md:h-80px flex-none bg-logocolor text-2xl xl:rounded-l-md flex justify-center items-center"
+      class="
+        logo-container
+        w-50px
+        md:w-80px
+        h-50px
+        md:h-80px
+        flex-none
+        bg-logocolor
+        text-2xl
+        xl:rounded-l-md
+        flex
+        justify-center
+        items-center
+      "
     >
-      <!-- QAEEDIT -->
+      <!-- SLPEDIT -->
       <img
         class="logo max-w-25px md:max-w-38px"
-
         src="@/assets/images/logoQredit.png"
-      >
-      <!-- /QAEEDIT -->
+      />
+      <!-- /SLPEDIT -->
     </RouterLink>
 
     <div class="w-full relative hidden xl:flex">
@@ -44,12 +56,12 @@ import {
   HeaderLanguagesDesktop,
   HeaderLanguagesMobile,
   HeaderMenuDesktop,
-  HeaderMenuMobile
-} from '@/components/header'
-import { mapGetters } from 'vuex'
+  HeaderMenuMobile,
+} from "@/components/header";
+import { mapGetters } from "vuex";
 
 export default {
-  name: 'AppHeader',
+  name: "AppHeader",
 
   components: {
     HeaderDefault,
@@ -59,19 +71,19 @@ export default {
     HeaderLanguagesDesktop,
     HeaderLanguagesMobile,
     HeaderMenuDesktop,
-    HeaderMenuMobile
+    HeaderMenuMobile,
   },
 
   computed: {
-    ...mapGetters('ui', ['headerType', 'menuVisible'])
+    ...mapGetters("ui", ["headerType", "menuVisible"]),
   },
 
   methods: {
-    closeHeader () {
-      this.$store.dispatch('ui/setHeaderType', null)
-    }
-  }
-}
+    closeHeader() {
+      this.$store.dispatch("ui/setHeaderType", null);
+    },
+  },
+};
 </script>
 
 <style scoped>

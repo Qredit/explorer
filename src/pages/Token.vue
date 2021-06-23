@@ -1,8 +1,5 @@
 <template>
-  <div
-    v-if="token"
-    class="max-w-2xl mx-auto md:pt-5"
-  >
+  <div v-if="token" class="max-w-2xl mx-auto md:pt-5">
     <ContentHeader>{{ $t("Token") }}</ContentHeader>
 
     <template v-if="tokenNotFound">
@@ -18,7 +15,9 @@
             class="mt-4 pager-button items-center"
             @click="fetchToken"
           >
-            <span>{{ !isFetching ? $t('Reload this page') : $t('Loading...') }}</span>
+            <span>{{
+              !isFetching ? $t("Reload this page") : $t("Loading...")
+            }}</span>
           </button>
         </div>
       </section>
@@ -35,85 +34,91 @@
 </template>
 
 <script type="text/ecmascript-6">
-import { TokenDetails, TokenIdentity, TokenTransactions } from '@/components/token'
-import NotFound from '@/components/utils/NotFound'
-import TokenService from '@/services/token'
+import {
+  TokenDetails,
+  TokenIdentity,
+  TokenTransactions,
+} from "@/components/token";
+import NotFound from "@/components/utils/NotFound";
+import TokenService from "@/services/token";
 
 export default {
   components: {
     TokenDetails,
     TokenIdentity,
     TokenTransactions,
-    NotFound
+    NotFound,
   },
 
   data: () => ({
     token: {},
     tokenNotFound: false,
-    isFetching: false
+    isFetching: false,
   }),
 
-  async beforeRouteEnter (to, from, next) {
+  async beforeRouteEnter(to, from, next) {
     try {
-      const response = await TokenService.find(to.params.id)
-      next(vm => vm.setToken(response))
+      const response = await TokenService.find(to.params.id);
+      next((vm) => vm.setToken(response));
     } catch (e) {
-      next(vm => {
-        console.log(e.message || e.data.error)
+      next((vm) => {
+        console.log(e.message || e.data.error);
 
-        vm.tokenNotFound = true
-        vm.token = { id: to.params.id }
-      })
+        vm.tokenNotFound = true;
+        vm.token = { id: to.params.id };
+      });
     }
   },
 
-  async beforeRouteUpdate (to, from, next) {
-    this.block = {}
+  async beforeRouteUpdate(to, from, next) {
+    this.block = {};
 
     try {
-      const response = await TokenService.find(to.params.id)
-      this.setToken(response)
-      next()
+      const response = await TokenService.find(to.params.id);
+      this.setToken(response);
+      next();
     } catch (e) {
-      console.log(e.message || e.data.error)
+      console.log(e.message || e.data.error);
 
-      this.tokenNotFound = true
-      this.token = { id: to.params.id }
+      this.tokenNotFound = true;
+      this.token = { id: to.params.id };
     }
   },
 
   methods: {
-    async prepareComponent () {
-      this.$store.watch(state => state.network.height, value => this.updateToken())
+    async prepareComponent() {
+      this.$store.watch(
+        (state) => state.network.height,
+        (value) => this.updateToken()
+      );
     },
 
-    async updateToken () {
+    async updateToken() {
       try {
-        const response = await TokenService.find(this.params.id)
-        this.setToken(response)
+        const response = await TokenService.find(this.params.id);
+        this.setToken(response);
       } catch (e) {
-        console.log(e.message || e.data.error)
+        console.log(e.message || e.data.error);
       }
     },
 
-    async fetchToken () {
-      this.isFetching = true
+    async fetchToken() {
+      this.isFetching = true;
 
       try {
-        const token = await TokenService.find(this.params.id)
-        this.setToken(token)
-        this.tokenNotFound = false
+        const token = await TokenService.find(this.params.id);
+        this.setToken(token);
+        this.tokenNotFound = false;
       } catch (e) {
-        console.log(e.message || e.data.error)
+        console.log(e.message || e.data.error);
       } finally {
-        this.isFetching = false
+        this.isFetching = false;
       }
     },
 
-    setToken (token) {
-      this.token = token
-    }
-
-  }
-}
+    setToken(token) {
+      this.token = token;
+    },
+  },
+};
 </script>

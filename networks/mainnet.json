@@ -1,7 +1,7 @@
 {
-  "QAEFILE": "",
+  "QSLPFILE": "",
   "title": "Qredit Explorer",
- "server": "https://qredit.cloud/api/v2",
+  "server": "https://qredit.cloud/api/v2",
   "alias": "Main",
   "activeDelegates": 51,
   "rewardOffset": 1525519,

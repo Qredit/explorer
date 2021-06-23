@@ -4,36 +4,34 @@ const locale = store.getters['ui/locale']
 
 export default {
   methods: {
-    readableCrypto (value, appendCurrency = true, decimals = 8) {
+    readableCrypto(value, appendCurrency = true, decimals = 8) {
       if (typeof value !== 'undefined') {
         value = (value /= 1e8).toLocaleString(locale, {
           maximumFractionDigits: decimals
         })
 
-        return appendCurrency ? `${value} ${
-          store.getters['network/symbol'] ||
-            store.getters['network/defaults'].symbol ||
-            ''
-        }` : value
+        return appendCurrency ? `${value} ${store.getters['network/symbol'] ||
+          store.getters['network/defaults'].symbol ||
+          ''
+          }` : value
       }
     },
 
-    // QAEADD
-    readableCryptoAlt (value, appendCurrency = true, decimals = 8) {
+    // SLPADD
+    readableCryptoAlt(value, appendCurrency = true, decimals = 8) {
       if (typeof value !== 'undefined') {
         value = (value /= eval('1e' + decimals)).toLocaleString(locale, {
           maximumFractionDigits: decimals
         })
 
-        return appendCurrency ? `${value} ${
-          store.getters['network/symbol'] ||
-            store.getters['network/defaults'].symbol ||
-            ''
-        }` : value
+        return appendCurrency ? `${value} ${store.getters['network/symbol'] ||
+          store.getters['network/defaults'].symbol ||
+          ''
+          }` : value
       }
     },
 
-    readableCurrency (value, rate = null, currency = null, normalise = true) {
+    readableCurrency(value, rate = null, currency = null, normalise = true) {
       const currencyName = currency || store.getters['currency/name']
 
       if (normalise) {
@@ -63,7 +61,7 @@ export default {
         })
     },
 
-    rawCurrency (value, currencyName) {
+    rawCurrency(value, currencyName) {
       return [store.getters['network/token'], 'BTC', 'ETH', 'LTC'].some(
         c => currencyName.indexOf(c) > -1
       )

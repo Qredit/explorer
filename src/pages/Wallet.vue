@@ -22,15 +22,9 @@
         />
       </div>
     </section>
-    <!-- QAEEDIT -->
-    <WalletTokens
-      v-if="tokens"
-      :tokens="tokens"
-    />
-    <WalletTransactions
-      v-if="wallet"
-      :wallet="wallet"
-    />
+    <!-- SLPEDIT -->
+    <WalletTokens v-if="tokens" :tokens="tokens" />
+    <WalletTransactions v-if="wallet" :wallet="wallet" />
   </div>
 </template>
 
@@ -40,13 +34,13 @@ import {
   WalletDetails,
   WalletTransactions,
   WalletVoters,
-  // QAEEDIT
-  WalletTokens
-} from '@/components/wallet'
-import WalletService from '@/services/wallet'
+  // SLPEDIT
+  WalletTokens,
+} from "@/components/wallet";
+import WalletService from "@/services/wallet";
 
-// QAEEDIT
-import TokenService from '@/services/token'
+// SLPEDIT
+import TokenService from "@/services/token";
 
 export default {
   components: {
@@ -54,57 +48,64 @@ export default {
     WalletDetails,
     WalletTransactions,
     WalletVoters,
-    // QAEEDIT
-    WalletTokens
+    // SLPEDIT
+    WalletTokens,
   },
 
   data: () => ({
     wallet: {},
     tokens: {},
-    activeTab: 'all',
-    username: ''
+    activeTab: "all",
+    username: "",
   }),
 
   computed: {
-    isDelegate () {
-      return this.wallet.isDelegate
+    isDelegate() {
+      return this.wallet.isDelegate;
+    },
+  },
+
+  // SLPEDIT
+  async beforeRouteEnter(to, from, next) {
+    try {
+      const response = await WalletService.find(to.params.address);
+      const tokensresponse = await TokenService.getWalletTokens(
+        to.params.address
+      );
+      next((vm) => {
+        vm.setWallet(response);
+        vm.setTokens(tokensresponse);
+      });
+    } catch (e) {
+      next({ name: "404" });
     }
   },
 
-  // QAEEDIT
-  async beforeRouteEnter (to, from, next) {
-    try {
-      const response = await WalletService.find(to.params.address)
-      const tokensresponse = await TokenService.getWalletTokens(to.params.address)
-      next(vm => {
-        vm.setWallet(response)
-        vm.setTokens(tokensresponse)
-      })
-    } catch (e) { next({ name: '404' }) }
-  },
-
-  async beforeRouteUpdate (to, from, next) {
-    this.wallet = {}
-    this.tokens = {}
+  async beforeRouteUpdate(to, from, next) {
+    this.wallet = {};
+    this.tokens = {};
 
     try {
-      const response = await WalletService.find(to.params.address)
-      const tokensresponse = await TokenService.getWalletTokens(to.params.address)
-      this.setWallet(response)
-      this.setTokens(tokensresponse)
-      next()
-    } catch (e) { next({ name: '404' }) }
+      const response = await WalletService.find(to.params.address);
+      const tokensresponse = await TokenService.getWalletTokens(
+        to.params.address
+      );
+      this.setWallet(response);
+      this.setTokens(tokensresponse);
+      next();
+    } catch (e) {
+      next({ name: "404" });
+    }
   },
 
   methods: {
-    async setWallet (wallet) {
-      this.wallet = wallet
+    async setWallet(wallet) {
+      this.wallet = wallet;
     },
-    async setTokens (tokens) {
-      this.tokens = tokens
-    }
-
-  }
-  // /QAEEDIT
-}
+    async setTokens(tokens) {
+      this.tokens = tokens;
+    },
+  },
+  // /SLPEDIT
+};
 </script>

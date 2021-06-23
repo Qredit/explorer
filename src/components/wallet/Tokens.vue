@@ -5,31 +5,27 @@
     </h2>
     <section class="page-section mb-5 py-5 md:py-10">
       <div class="hidden sm:block">
-        <TableWalletTokensDesktop
-          :tokens="tokens"
-        />
+        <TableWalletTokensDesktop :tokens="tokens" />
       </div>
       <div class="sm:hidden">
-        <TableWalletTokensMobile
-          :tokens="tokens"
-        />
+        <TableWalletTokensMobile :tokens="tokens" />
       </div>
     </section>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-import TokenService from '@/services/token'
+import TokenService from "@/services/token";
 
 export default {
-  name: 'WalletTokens',
+  name: "WalletTokens",
 
   props: {
     tokens: {
       type: Object,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 
   //   data: () => ({
   //     tokens: null
@@ -50,9 +46,9 @@ export default {
   //     async getTokens () {
   //       if (!this.wallet.address) return
 
-//       const data = await TokenService.getWalletTokens(this.wallet.address)
-//         this.tokens = data
-//     }
-//   }
-}
+  //       const data = await TokenService.getWalletTokens(this.wallet.address)
+  //         this.tokens = data
+  //     }
+  //   }
+};
 </script>
