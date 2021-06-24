@@ -150,10 +150,13 @@ export default {
 
   props: {
     token: {
-      // type: Object,
-      object: String,
-      tokenIdHex: Object,
+      type: Object,
       required: true,
+      // type: Object,
+      // tokenIdHex: String,
+      //object: String,
+      // tokenIdHex: Object,
+      // required: true,
     },
   },
   data: () => ({
