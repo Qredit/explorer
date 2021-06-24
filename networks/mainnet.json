@@ -1,10 +1,9 @@
 {
-  "QSLPFILE": "",
-  "title": "Qredit Explorer",
-  "server": "https://qredit.cloud/api/v2",
+  "title": "ARK Explorer",
+  "server": "https://explorer.ark.io/api",
   "alias": "Main",
   "activeDelegates": 51,
-  "rewardOffset": 1525519,
+  "rewardOffset": 75600,
   "currencies": {
     "AUD": "A$",
     "BRL": "R$",
@@ -22,14 +21,9 @@
     "RUB": "₽",
     "USD": "$"
   },
-  "knownWallets": {
-    "XVii6xY3Tu3iGqZGNE3MyjxBoDrTnhdu6G": "Genesis",
-    "XSRLZspaECvszxLaUzVAx3WV5qqNkmBNXZ": "Swap Master Address",
-    "XYhgwCuap182ey5CP3RbNn3NENXdpevcHM": "STEX"
-  },
   "defaults": {
-    "token": "XQR",
-    "symbol": "XQR",
+    "token": "ARK",
+    "symbol": "Ѧ",
     "currency": {
       "name": "USD",
       "symbol": "$"
