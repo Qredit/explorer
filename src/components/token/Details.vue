@@ -142,7 +142,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-import CryptoCompareService from "@/services/crypto-compare";
+import QreditSltService from "@/services/qreditslt";
 import { mapGetters } from "vuex";
 
 export default {
@@ -152,11 +152,6 @@ export default {
     token: {
       type: Object,
       required: true,
-      // type: Object,
-      // tokenIdHex: String,
-      //object: String,
-      // tokenIdHex: Object,
-      // required: true,
     },
   },
   data: () => ({

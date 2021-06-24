@@ -16,7 +16,7 @@ class QreditSltService {
         const response = await axios
             .get(`https://qslp.qredit.cloud/api/token/${tokenid}`)
 
-        return response.data // .transform(response.data.Data, dateTimeFormat)
+        return response.data; // .transform(response.data.Data, dateTimeFormat)
     }
 
     async getTokens() {
